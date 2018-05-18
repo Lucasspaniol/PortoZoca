@@ -1,1 +1,20 @@
-Oi 
+HU001
+SENDO um usuário
+POSSO cadastrar um produto
+POIS ASSIM terei as informações de cada produto no meu sistema
+
+Critério: Deve aceitar referência e descrição do produto
+DADO que entrei na inclusão do produtos
+QUANDO entrar na inclusão
+ENTÃO o sistema me pede para informar referência e descrição do produto
+
+Critério: Não deve permitir informar dois produtos com a mesma referência
+DADO que estou cadastrando meu produto
+QUANDO eu colocar um referência diferente das dos outros produtos e avancei
+ENTÃO o sistema deve exibir mensagem de confirmação de inclusão E
+      E caso eu confirme, deve incluir produto no banco
+
+Critério: Não deve permitir informar dois produtos com a mesma referência
+DADO que estou cadastrando meu produto
+QUANDO eu colocar um referência de produto duplicada
+ENTÃO o sistema deve exibir a mensagem "Já existe o produto [DESCRIÇÃO] com a mesma referência cadastrado na base de dados!"
