@@ -1,5 +1,5 @@
 HU001
-SENDO um usuário
+SENDO um usuário supervisor
 POSSO cadastrar um produto
 POIS ASSIM terei as informações de cada produto no meu sistema
 
@@ -18,3 +18,15 @@ Critério: Não deve permitir informar dois produtos com a mesma referência
 DADO que estou cadastrando meu produto
 QUANDO eu colocar um referência de produto duplicada
 ENTÃO o sistema deve exibir a mensagem "Já existe o produto [DESCRIÇÃO] com a mesma referência cadastrado na base de dados!"
+      E não deve permitir prosseguir com a ação
+
+Critério: Deve permitir apenas que usuários supervisores cadastrem produtos
+DADO que sou um usuário supervisor
+QUANDO eu entrar na manutenção do produto
+ENTÃO o sistema deve permitir
+
+Critério: Deve permitir apenas que usuários supervisores cadastrem produtos
+DADO que não sou um usuário supervisor
+QUANDO eu entrar na manutenção do produto
+ENTÃO o sistema deve exibir a mensagem "Apenas usuários supervisores tem acesso à manutenção de cadastros!"
+      E não deve permitir prosseguir com a ação
