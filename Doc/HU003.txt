@@ -1,14 +1,21 @@
 HU003
-SENDO um usu·rio
+SENDO um usu√°rio
 POSSO cadastrar um LPN
-POIS ASSIM poderei agrupar produtos e outros LPNs no LPN criado
+POIS ASSIM poderei agrupar produtos em LPNs
 
-CritÈrio: Um LPN deve ser ou LPN contenedor ou LPN final
-DADO que entrei na inclus„o do LPN e indiquei para estar contido no LPN ou um produto ou um outro LPN
-QUANDO entrar na inclus„o de LPN
-ENT√O se eu indiquei um produto o sistema vai me pedir a quantidade do produto contido, se eu indiquei um outro LPN o sistema vai gravar o LPN atual como LPN contenedor do LPN indicado e continuar aceitando outros LPNs para estarem contidos
+Crit√©rio: Deve permitir colocar ou um produto ou LPNs dentro de uma LPN
+DADO que entrei na inclus√£o do LPN
+QUANDO indiquei um produto
+ENT√ÉO o sistema vai me pedir a quantidade do produto contido
 
-CritÈrio: Dentro de toda a estrutura do LPN deve ter sempre um ˙nico produto
-DADO que entrei na inclus„o de LPN e criei um novo LPN contenedor
-QUANDO entrar na inclus„o de LPN contenedor e informar um LPN e na sequÍncia o sistema me sugerir informar mais um LPN
-ENT√O Se eu informar um LPN que contenha produto diferente do primeiro, deve exibir uma mensagem "O produto do LPN informado È diferente do produto XXX (produto do primeiro LPN informado) e voltar para a aceitaÁ„o 
+
+Crit√©rio: Deve permitir colocar ou um produto ou LPNs dentro de uma LPN
+DADO que entrei na inclus√£o do LPN
+QUANDO indiquei um outro LPN
+ENT√ÉO o sistema vai gravar o LPN em manuten√ß√£o como contenedor do LPN indicado
+      E continuar aceitando outros LPNs para estarem contidos
+
+Crit√©rio: Dentro de toda a estrutura do LPN deve ter sempre um √∫nico produto
+DADO que entrei na inclus√£o de LPN e criei um novo LPN contenedor
+QUANDO entrar na inclus√£o de LPN contenedor e informar um LPN e na sequ√™ncia o sistema me sugerir informar mais um LPN
+ENT√ÉO Se eu informar um LPN que contenha produto diferente do primeiro, deve exibir uma mensagem "O produto do LPN informado √© diferente do produto XXX (produto do primeiro LPN informado) e voltar para a aceita√ß√£o
