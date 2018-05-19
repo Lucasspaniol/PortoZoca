@@ -1,0 +1,30 @@
+HU002
+SENDO um usuário supervisor
+POSSO cadastrar um usuário
+POIS ASSIM cada pessoa do sistema terá seu próprio login e terá suas próprias permissões no sistema
+
+Critério: Deve inicializar o sistema com um usuário supervisor
+DADO o sistema foi recém instalado
+QUANDO entrar no sistema
+ENTÃO terei que fazer login com o usuário supervisor para fazer a manutenção dos outros usuários (Login: "MASTER" Senha: "MASTER")
+
+Critério: Deve sempre ter pelo menos um usuário supervisor
+DADO sou um usuário supervisor
+      E não tem mais usuários supervisores no sistema
+QUANDO tentar excluir meu usuário supervisor
+      OU tirar minhas permissões de supervisor
+ENTÃO o sistema deve exibir a mensagem "É necessário manter pelo menos um usuário com permissões de supervisor no sistema!"
+      E não deve permitir prosseguir com a ação
+
+Critério: Deve sempre ter pelo menos um usuário supervisor
+DADO sou um usuário supervisor
+      E tem mais usuários supervisores no sistema
+QUANDO tentar excluir meu usuário supervisor
+      OU tirar minhas permissões de supervisor
+ENTÃO o sistema deve exibir mensagem de confirmação
+      E permitir prosseguir com a ação
+
+Critério: Não deve permitir usuários não supervisores fazer manutenção de usuários
+DADO que sou um usuário não supervisor
+QUANDO entrar no sistema
+ENTÃO o sistema não deve me dar acessos à manutenção de usuários

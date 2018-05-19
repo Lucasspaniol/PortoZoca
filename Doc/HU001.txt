@@ -11,8 +11,8 @@ ENTÃO o sistema me pede para informar referência e descrição do produto
 Critério: Não deve permitir informar dois produtos com a mesma referência
 DADO que estou cadastrando meu produto
 QUANDO eu colocar um referência diferente das dos outros produtos e avancei
-ENTÃO o sistema deve exibir mensagem de confirmação de inclusão E
-      E caso eu confirme, deve incluir produto no banco
+ENTÃO o sistema deve exibir mensagem de confirmação
+      E permitir prosseguir com a ação
 
 Critério: Não deve permitir informar dois produtos com a mesma referência
 DADO que estou cadastrando meu produto
