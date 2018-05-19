@@ -1,0 +1,14 @@
+HU003
+SENDO um usuário
+POSSO cadastrar um LPN
+POIS ASSIM poderei agrupar produtos e outros LPNs no LPN criado
+
+Critério: Um LPN deve ser ou LPN contenedor ou LPN final
+DADO que entrei na inclusão do LPN e indiquei para estar contido no LPN ou um produto ou um outro LPN
+QUANDO entrar na inclusão de LPN
+ENTÃO se eu indiquei um produto o sistema vai me pedir a quantidade do produto contido, se eu indiquei um outro LPN o sistema vai gravar o LPN atual como LPN contenedor do LPN indicado e continuar aceitando outros LPNs para estarem contidos
+
+Critério: Dentro de toda a estrutura do LPN deve ter sempre um único produto
+DADO que entrei na inclusão de LPN e criei um novo LPN contenedor
+QUANDO entrar na inclusão de LPN contenedor e informar um LPN e na sequência o sistema me sugerir informar mais um LPN
+ENTÃO Se eu informar um LPN que contenha produto diferente do primeiro, deve exibir uma mensagem "O produto do LPN informado é diferente do produto XXX (produto do primeiro LPN informado) e voltar para a aceitação 
