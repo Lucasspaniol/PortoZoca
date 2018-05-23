@@ -9,7 +9,8 @@ CREATE TABLE Lpns (
     LpnId int,
     ProdutoId int,
     Quantidade double(10,3),
-    LpnContenedorId int
+    LpnContenedorId int,
+    LocalizacaoId int
 );
 
 CREATE TABLE Localizacoes (
@@ -24,17 +25,6 @@ CREATE TABLE Usuarios (
     Apelido varchar(255),
     Senha varchar(255),
     Supervisor bit
-);
-
-CREATE TABLE Movimentos (
-    MovimentoId int,
-    LpnOrigemId int,
-    LocalizacaoOrigemId int,
-    LpnDestinoId int,
-    LocalizacaoDestinoId int,
-    ProdutoId int,
-    Quantidade double(10,3),
-    Tipo int
 );
 
 CREATE TABLE Observacoes (
