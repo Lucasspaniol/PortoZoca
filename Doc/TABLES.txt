@@ -1,33 +1,45 @@
-CREATE TABLE Produtos if not exists (
-    ProdutoId int primary key,
+DROP TABLE IF EXISTS Produtos;
+DROP TABLE IF EXISTS Localizacoes;
+DROP TABLE IF EXISTS Lpns;
+DROP TABLE IF EXISTS Usuarios;
+
+CREATE TABLE if not exists Produtos (
+    ProdutoId int not null,
     Referencia varchar(255),
     Descricao varchar(255),
-    ObservacaoId int foreign key references Observacoes(ObservacaoId)
+    Observacao text,
+	PRIMARY KEY (ProdutoId)
 );
 
-CREATE TABLE Lpns if not exists (
-    LpnId int primary key,
-    ProdutoId int foreign key references Produtos(ProdutoId),
-    Quantidade double(10,3),
-    LpnContenedorId int foreign key references Lpns(LpnId),
-    LocalizacaoId int foreign key references Localizacoes(LocalizacaoId)
-);
-
-CREATE TABLE Localizacoes if not exists (
-    LocalizacaoId int primary key,
-    LocalizacaoSuperiorId int foreign key references Localizacoes(LocalizacaoId),
+CREATE TABLE if not exists Localizacoes (
+    LocalizacaoId int not null,
+    LocalizacaoSuperiorId int,
     Divisao varchar(255),
-    ObservacaoId int foreign key references Observacoes(ObservacaoId)
+    Observacao text,
+	PRIMARY KEY (LocalizacaoId)
 );
 
-CREATE TABLE Usuarios if not exists (
-    UsuarioId int primary key,
+CREATE TABLE if not exists Lpns (
+    LpnId int not null,
+    ProdutoId int,
+    Quantidade double(10,3),
+    LpnContenedorId int,
+    LocalizacaoId int,
+	PRIMARY KEY (LpnId),
+	FOREIGN KEY (ProdutoId) REFERENCES Produtos(ProdutoId),
+	FOREIGN KEY (LocalizacaoId) REFERENCES Localizacoes(LocalizacaoId)
+);
+
+CREATE TABLE if not exists Usuarios (
+    UsuarioId int not null,
     Apelido varchar(255),
     Senha varchar(255),
-    Supervisor bit
+    Supervisor bit,
+	PRIMARY KEY (UsuarioId)
 );
 
-CREATE TABLE Observacoes if not exists (
-    ObservacaoId int primary key,
-    Texto text
-);
+ALTER TABLE Localizacoes 
+   ADD FOREIGN KEY (LocalizacaoSuperiorId) REFERENCES Localizacoes(LocalizacaoId);
+
+ALTER TABLE Lpns 
+   ADD FOREIGN KEY (LpnContenedorId) REFERENCES Lpns(LpnId);
