@@ -1,0 +1,18 @@
+HU004
+SENDO um usuário supervisor
+POSSO cadastrar a localização em que meus produtos serão estocados
+POIS ASSIM terei um controle melhor do meu estoque e conseguirei encontrar os produtos facilmente
+
+Critério: Deve obrigar a cadastrar a localização mais abrangente antes de cadastrar a específica
+DADO que estou na manutenção do local
+QUANDO colocar tentar cadastrar localização "1.1"
+      E possui a localização "1" cadastrada no sistema
+ENTÃO o sistema deve exibir mensagem de confirmação
+      E permitir prosseguir com a ação
+
+Critério: Deve obrigar a cadastrar a localização mais abrangente antes de cadastrar a específica
+DADO que estou na manutenção do local
+QUANDO colocar tentar cadastrar localização "1.1"
+      E não possui a localização "1" cadastrada no sistema
+ENTÃO o sistema deve exibir a mensagem "A localização 1 não está cadastrada no sistema!"
+      E não deve permitir prosseguir com a ação

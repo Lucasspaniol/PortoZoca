@@ -1,0 +1,51 @@
+HU003
+SENDO um usuário
+POSSO cadastrar um LPN
+POIS ASSIM poderei agrupar produtos em LPNs
+
+Critério: Deve permitir colocar um produto dentro de um LPN
+DADO que entrei na inclusão do LPN
+QUANDO indiquei um produto
+ENTÃO o sistema vai me pedir a quantidade do produto contido
+
+Critério: Deve permitir colocar um LPNs dentro de um LPN
+DADO que entrei na inclusão do LPN
+QUANDO indiquei um outro LPN
+ENTÃO o sistema vai gravar o LPN em manutenção como contenedor do LPN indicado
+      E continuar aceitando outros LPNs para estarem contidos
+
+Critério: Dentro de toda a estrutura do LPN deve ter sempre um único produto
+DADO que entrei na manutenção de um LPN contenedor
+      E já possui uma LPN
+QUANDO informar uma LPN com um produto diferente da LPN já existente
+ENTÃO o sistema exibe a mensagem "O produto do LPN informado é diferente do produto [PRODUTO_DA_PRIMEIRA_LPN]"
+      E não deve permitir prosseguir com a ação
+
+Critério: Dentro de toda a estrutura do LPN deve ter sempre um único produto
+DADO que entrei na manutenção de um LPN contenedor
+      E já possui uma LPN
+QUANDO informar uma LPN com um produto igual da LPN já existente
+ENTÃO permitir prosseguir com a ação
+
+Critério: Um LPN não pode ser final e contenedor
+DADO que entrei na manutenção de um LPN contenedor
+QUANDO informar um produto na LPN
+ENTAO o sistema não deve mais permitir informar um LPN contido no LPN em manutenção
+
+Critério: Um LPN não pode ser final e contenedor
+DADO que entrei na manutenção de um LPN contenedor
+QUANDO informar um LPN contido
+ENTAO o sistema vai permitir informar outros LPNs contidos
+      E não vai deixar informar o produto e quantidade
+
+Critério: Deve eliminar LPNs vazias
+DADO que estou na manutenção de um LPN contenedor
+QUANDO retirar todos os LPNs contidos
+ENTAO o sistema me questiona se desejo eliminar o LPN
+      E ao confirmar o LPN é eliminado
+
+Critério: Deve eliminar LPNs vazias
+DADO que estou na manutenção de um LPN final
+QUANDO zerar a quantidade do produto dentro do LPN
+ENTAO o sistema me questiona se desejo eliminar o LPN
+      E ao confirmar o LPN é eliminado

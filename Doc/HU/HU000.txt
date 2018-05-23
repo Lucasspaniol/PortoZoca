@@ -1,0 +1,8 @@
+SENDO UM <persona>
+POSSO <funcionalidade>
+POIS ASSIM <benefício>
+
+Critério: <critério>
+DADO QUE <précondição>
+QUANDO <ação>
+ENTÃO <reação>
