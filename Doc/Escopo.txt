@@ -1,6 +1,7 @@
 Escopo:
 O programa é um sistema de controle de localização de produtos onde os produtos são cadastrados dentro de LPN e esses por sua vez são depositados em determinados locais. LPNs são como caixas agrupadoras de um único produto.
 Na consulta do produto é possível então ver em qual local e quais as caixas que contém o produto.
+A complexidade do programa está no controle da localização e do LPN. As localizações podem ser cadastradas em forma de árvore, por exemplo posição X.Y ou CorredorA.X.Y e assim é possível abrir vários níveis na localização. Já o LPN pode ser inserido dentro de outro LPN.
 
 
 Funcionalidade:
