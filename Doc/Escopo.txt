@@ -13,4 +13,13 @@ Transferência entre LPN's
 Saída de produtos
 Localizar produtos
 
+Exemplos de cadastro:
+Localização FEEVALE.VERDE.ANDAR2.SALA211.X.Y
 
+LPN 10
+   LPN 1
+      5 lampadas
+   LPN 2
+      13 lampadas
+
+LPN 10 -> 18 lampadas
