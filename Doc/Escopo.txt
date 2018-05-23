@@ -1,4 +1,9 @@
 Escopo:
+O programa é um sistema de controle de localização de produtos onde os produtos são cadastrados dentro de LPN e esses por sua vez são depositados em determinados locais. LPNs são como caixas agrupadoras de um único produto.
+Na consulta do produto é possível então ver em qual local e quais as caixas que contém o produto.
+
+
+Funcionalidade:
 Manutenção de produtos
 Manutenção de LPNs
 Manutenção de localizações
@@ -6,9 +11,5 @@ Entrada de produtos
 Transferência entre LPN's
 Saída de produtos
 Localizar produtos
-
-Funcionalidade:
-O programa é um sistema de controle de localização de produtos onde os produtos são cadastrados dentro de LPN e esses por sua vez são depositados em determinados locais. LPNs são como caixas agrupadoras de um único produto.
-Na consulta do produto é possível então ver em qual local e quais as caixas que contém o produto.
 
 
