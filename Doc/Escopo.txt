@@ -1,0 +1,6 @@
+Escopo:
+Manutenção de produtos
+Manutenção de LPNs
+Manutenção de localizações
+Manutenção de Movimentos
+Uma forma de localizar o produto que não definimos ainda (Listagem, consulta, etc...)

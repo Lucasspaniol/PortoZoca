@@ -1,0 +1,43 @@
+CREATE TABLE Produtos (
+    ProdutoId int,
+    Referencia varchar(255),
+    Descricao varchar(255),
+    ObservacaoId int
+);
+
+CREATE TABLE Lpns (
+    LpnId int,
+    ProdutoId int,
+    Quantidade double(10,3),
+    LpnContenedorId int
+);
+
+CREATE TABLE Localizacoes (
+    LocalizacaoId int,
+    LocalizacaoSuperiorId int,
+    Divisao varchar(255),
+    ObservacaoId int
+);
+
+CREATE TABLE Usuarios (
+    UsuarioId int,
+    Apelido varchar(255),
+    Senha varchar(255),
+    Supervisor bit
+);
+
+CREATE TABLE Movimentos (
+    MovimentoId int,
+    LpnOrigemId int,
+    LocalizacaoOrigemId int,
+    LpnDestinoId int,
+    LocalizacaoDestinoId int,
+    ProdutoId int,
+    Quantidade double(10,3),
+    Tipo int
+);
+
+CREATE TABLE Observacoes (
+    ObservacaoId int,
+    Texto text
+);
