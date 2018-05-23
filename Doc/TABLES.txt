@@ -1,33 +1,33 @@
-CREATE TABLE Produtos (
+CREATE TABLE Produtos if not exists (
     ProdutoId int,
     Referencia varchar(255),
     Descricao varchar(255),
-    ObservacaoId int
+    ObservacaoId int foreign key references Observacoes(ObservacaoId)
 );
 
-CREATE TABLE Lpns (
+CREATE TABLE Lpns if not exists (
     LpnId int,
-    ProdutoId int,
+    ProdutoId int foreign key references Produtos(ProdutoId),
     Quantidade double(10,3),
-    LpnContenedorId int,
-    LocalizacaoId int
+    LpnContenedorId int foreign key references Lpns(LpnId),
+    LocalizacaoId int foreign key references Localizacoes(LocalizacaoId)
 );
 
-CREATE TABLE Localizacoes (
+CREATE TABLE Localizacoes if not exists (
     LocalizacaoId int,
-    LocalizacaoSuperiorId int,
+    LocalizacaoSuperiorId int foreign key references Localizacoes(LocalizacaoId),
     Divisao varchar(255),
-    ObservacaoId int
+    ObservacaoId int foreign key references Observacoes(ObservacaoId)
 );
 
-CREATE TABLE Usuarios (
+CREATE TABLE Usuarios if not exists (
     UsuarioId int,
     Apelido varchar(255),
     Senha varchar(255),
     Supervisor bit
 );
 
-CREATE TABLE Observacoes (
+CREATE TABLE Observacoes if not exists (
     ObservacaoId int,
     Texto text
 );
