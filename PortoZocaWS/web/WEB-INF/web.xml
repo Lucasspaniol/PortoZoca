@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
-    <servlet>
-        <servlet-name>Produtos</servlet-name>
-        <servlet-class>Produtos</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Produtos</servlet-name>
-        <url-pattern>/Produtos</url-pattern>
-    </servlet-mapping>
+
+    <!-- Project Details -->
+    <display-name>PortoZoca WS</display-name>
+
+    <!-- Session Configuration -->
     <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
+        <session-timeout>20</session-timeout>
+        <cookie-config>
+            <tracking-mode>COOKIE</tracking-mode>
+            <http-only>true</http-only>
+            <max-age>3600</max-age>
+        </cookie-config>
     </session-config>
+
 </web-app>
