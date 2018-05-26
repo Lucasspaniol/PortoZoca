@@ -14,6 +14,10 @@ import java.sql.Statement;
  */
 public interface Conexao extends AutoCloseable {
 
+    public boolean isFree();
+
+    public void free();
+
     public Statement createStmt() throws DBException;
 
     public PreparedStatement prepareStmt(String sql) throws DBException;

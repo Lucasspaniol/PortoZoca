@@ -71,4 +71,26 @@ public class ConexaoFactoryTest {
         assertTrue(tables.contains("Usuarios"));
     }
 
+    @Test
+    public void poolTest() throws DBException, SQLException {
+        conn = ConexaoFactory.getConn();
+        conn.createStmt();
+        conn.free();
+        conn = ConexaoFactory.getConn();
+        conn.createStmt();
+        conn.free();
+        conn = ConexaoFactory.getConn();
+        conn.createStmt();
+        conn.free();
+
+        ResultSet rs = conn.createStmt().executeQuery("Show Tables;");
+        List<String> tables = new ArrayList<>();
+        while (rs.next()) {
+            tables.add(rs.getString(1));
+        }
+        // Asserts
+        assertTrue(tables.contains("Localizacoes"));
+
+    }
+
 }

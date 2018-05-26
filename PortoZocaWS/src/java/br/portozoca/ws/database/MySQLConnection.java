@@ -21,6 +21,8 @@ public class MySQLConnection implements Conexao {
     private final Connection conn;
     /** An indicator if the connection is a transaction or a read-only one */
     private final boolean readOnly;
+    /** A flag to control if the connection is free to use */
+    private boolean free;
 
     /**
      * Constructor that receives the connection and default's to readonly
@@ -39,11 +41,13 @@ public class MySQLConnection implements Conexao {
     public MySQLConnection(Connection conn, boolean readOnly) {
         this.conn = conn;
         this.readOnly = readOnly;
+        this.free = true;
     }
 
     @Override
     public Statement createStmt() throws DBException {
         try {
+            this.free = false;
             return conn.createStatement();
         } catch (SQLException ex) {
             throw new DBException(ex);
@@ -53,10 +57,21 @@ public class MySQLConnection implements Conexao {
     @Override
     public PreparedStatement prepareStmt(String sql) throws DBException {
         try {
+            this.free = false;
             return conn.prepareStatement(sql);
         } catch (SQLException ex) {
             throw new DBException(ex);
         }
+    }
+
+    @Override
+    public void free() {
+        this.free = true;
+    }
+
+    @Override
+    public boolean isFree() {
+        return free;
     }
 
     @Override

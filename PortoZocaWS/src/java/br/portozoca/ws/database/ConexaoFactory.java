@@ -49,16 +49,22 @@ public final class ConexaoFactory {
      * @throws br.portozoca.ws.database.DBException
      */
     public static Conexao getConn() throws DBException {
-        Connection conn = null;
+        Conexao conn = null;
+        ConnectionPool pool = ConnectionPool.get();
         try {
-            conn = getJdbcConn();
-            conn.setAutoCommit(false);
-            conn.setReadOnly(true);
-        } catch (SQLException e) {
-            throw new DBException("Failed to create a Read-Only Connection", e);
+            conn = pool.getConnection();
+        } catch (EmptyPoolException ex) {
+            try {
+                Connection jdbcConn = getJdbcConn();
+                jdbcConn.setAutoCommit(false);
+                jdbcConn.setReadOnly(true);
+                conn = new MySQLConnection(jdbcConn);
+                pool.addConnection(conn);
+            } catch (SQLException e) {
+                throw new DBException("Failed to create a Read-Only Connection", e);
+            }
         }
-
-        return new MySQLConnection(conn);
+        return conn;
     }
 
     /**
