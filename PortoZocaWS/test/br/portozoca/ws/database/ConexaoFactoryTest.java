@@ -51,10 +51,10 @@ public class ConexaoFactoryTest {
             tables.add(rs.getString(1));
         }
         // Asserts
-        assertTrue(tables.contains("Localizacoes"));
-        assertTrue(tables.contains("Lpns"));
-        assertTrue(tables.contains("Produtos"));
-        assertTrue(tables.contains("Usuarios"));
+        assertTrue(tables.contains("Localizacao"));
+        assertTrue(tables.contains("Lpn"));
+        assertTrue(tables.contains("Produto"));
+        assertTrue(tables.contains("Usuario"));
     }
 
     /**
