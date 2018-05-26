@@ -21,8 +21,8 @@ CREATE TABLE IF NOT EXISTS Lpn (
     LpnContenedorId int,
     LocalizacaoId int,
 	PRIMARY KEY (LpnId),
-	FOREIGN KEY (fk_ProdutoId) REFERENCES Produto(ProdutoId),
-	FOREIGN KEY (fk_LocalizacaoId) REFERENCES Localizacao(LocalizacaoId)
+	FOREIGN KEY (ProdutoId) REFERENCES Produto(ProdutoId),
+	FOREIGN KEY (LocalizacaoId) REFERENCES Localizacao(LocalizacaoId)
 );
 
 CREATE TABLE IF NOT EXISTS Usuario (
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS Usuario (
 );
 
 ALTER TABLE Localizacao
-   ADD FOREIGN KEY (fk_LocalizacaoSuperiorId) REFERENCES Localizacao(LocalizacaoId);
+   ADD FOREIGN KEY (LocalizacaoSuperiorId) REFERENCES Localizacao(LocalizacaoId);
 
 ALTER TABLE Lpn
-   ADD FOREIGN KEY (fk_LpnContenedorId) REFERENCES Lpn(LpnId);
+   ADD FOREIGN KEY (LpnContenedorId) REFERENCES Lpn(LpnId);
