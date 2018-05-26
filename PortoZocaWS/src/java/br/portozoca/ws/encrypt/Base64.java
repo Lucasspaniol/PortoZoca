@@ -9,10 +9,10 @@ import java.nio.charset.Charset;
 
 /**
  * Base64 Encrypt/decrypt
- * 
+ *
  * @author joaovperin
  */
-public class Base64 implements Criptography {
+public final class Base64 implements Criptography {
 
     @Override
     public String encrypt(String input) {
@@ -32,7 +32,7 @@ public class Base64 implements Criptography {
     }
 
     @Override
-    public String decrypt(String output, String key) {
+    public String decrypt(String input, String key) {
         throw new UnsupportedOperationException("Base64 doesn't uses a key to decode.");
     }
 

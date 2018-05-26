@@ -16,8 +16,8 @@ public interface Criptography {
 
     public String encrypt(String input, String key);
 
-    public String decrypt(String output);
+    public String decrypt(String input);
 
-    public String decrypt(String output, String key);
+    public String decrypt(String input, String key);
 
 }
