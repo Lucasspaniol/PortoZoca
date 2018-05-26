@@ -15,7 +15,7 @@ import java.sql.Statement;
  *
  * @author joaovperin
  */
-public class MySQLConnection implements Conexao {
+public class MySQLConnection implements ConexaoPool {
 
     /** JDBC wrapped connection object */
     private final Connection conn;
@@ -102,6 +102,16 @@ public class MySQLConnection implements Conexao {
 
     @Override
     public void close() {
+        // If is a ready-only connection, just mark it as free and not close that.
+        if (readOnly) {
+            this.free = true;
+            return;
+        }
+        jdbcClose();
+    }
+
+    @Override
+    public final void jdbcClose() {
         try {
             conn.close();
         } catch (SQLException ex) {

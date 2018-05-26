@@ -8,8 +8,6 @@ package br.portozoca.ws.database;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Pool of query connections
@@ -21,33 +19,33 @@ public final class ConnectionPool {
     private static ConnectionPool instance;
     private static PoolProperties properties;
 
-    private final List<Conexao> conexoes;
+    private final List<ConexaoPool> conexoes;
     private int tries = 0;
 
     private ConnectionPool() {
         this.conexoes = new ArrayList<>();
     }
 
-    public void addConnection(Conexao conn) throws DBException {
+    public void addConnection(ConexaoPool conn) throws DBException {
         if (conexoes.size() >= properties.getMaxConnections()) {
             throw new DBException("Pool is full!");
         }
         conexoes.add(conn);
     }
 
-    public Conexao getConnection() throws EmptyPoolException {
-        Conexao conn = getPoolConnection();
+    public ConexaoPool getConnection() throws EmptyPoolException {
+        ConexaoPool conn = getPoolConnection();
         tries = 0;
         return conn;
     }
 
-    private Conexao getPoolConnection() throws EmptyPoolException {
+    private ConexaoPool getPoolConnection() throws EmptyPoolException {
         // Recursive protection for not entering in infinite loop
         if (tries++ > properties.getMaxTries()) {
             throw new RuntimeException("Failed to create a new Connection after " + properties.getMaxTries() + " tries.");
         }
         // Try to get a free connection on the pool
-        Optional<Conexao> opt = conexoes.stream().filter((c) -> c.isFree()).findFirst();
+        Optional<ConexaoPool> opt = conexoes.stream().filter((c) -> c.isFree()).findFirst();
         if (opt.isPresent()) {
             return opt.get();
         }
@@ -80,13 +78,7 @@ public final class ConnectionPool {
     }
 
     private void onFinish() {
-        this.conexoes.forEach((Conexao c) -> {
-            try {
-                c.close();
-            } catch (DBException ex) {
-                Logger.getLogger(ConnectionPool.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        });
+        this.conexoes.forEach(ConexaoPool::jdbcClose);
     }
 
 }

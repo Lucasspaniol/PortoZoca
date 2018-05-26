@@ -49,7 +49,7 @@ public final class ConexaoFactory {
      * @throws br.portozoca.ws.database.DBException
      */
     public static Conexao getConn() throws DBException {
-        Conexao conn = null;
+        ConexaoPool conn = null;
         ConnectionPool pool = ConnectionPool.get();
         try {
             conn = pool.getConnection();

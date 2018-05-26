@@ -6,10 +6,12 @@
 package br.portozoca.ws.database;
 
 /**
- * A exception threw by the poll when you need to create a connection
+ * A class to represent a connection from the pool
  *
  * @author joaovperin
  */
-public class EmptyPoolException extends Exception {
+public interface ConexaoPool extends Conexao {
+
+    public void jdbcClose();
 
 }
