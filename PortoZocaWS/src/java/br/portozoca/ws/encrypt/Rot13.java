@@ -12,6 +12,7 @@ package br.portozoca.ws.encrypt;
  */
 public final class Rot13 implements Criptography {
 
+    /** Constant to the number of rotations */
     private static final int ROT_13 = 13;
 
     @Override
@@ -20,13 +21,13 @@ public final class Rot13 implements Criptography {
     }
 
     @Override
-    public String encrypt(String input, String key) {
-        throw new UnsupportedOperationException("ROT13 Doesn't uses a key to encrypt.");
+    public String decrypt(String input) {
+        return rotate(input);
     }
 
     @Override
-    public String decrypt(String input) {
-        return rotate(input);
+    public String encrypt(String input, String key) {
+        throw new UnsupportedOperationException("ROT13 Doesn't uses a key to encrypt.");
     }
 
     @Override

@@ -48,7 +48,7 @@ public final class ConexaoFactory {
      * @return Conexao
      * @throws br.portozoca.ws.database.DBException
      */
-    public static Conexao getConn() throws DBException {
+    public static Conexao query() throws DBException {
         ConexaoPool conn = null;
         ConnectionPool pool = ConnectionPool.get();
         try {
@@ -73,7 +73,7 @@ public final class ConexaoFactory {
      * @return Conexao
      * @throws br.portozoca.ws.database.DBException
      */
-    public static Conexao getTransaction() throws DBException {
+    public static Conexao transaction() throws DBException {
         Connection conn = null;
         try {
             conn = getJdbcConn();

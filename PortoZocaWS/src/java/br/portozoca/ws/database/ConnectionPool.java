@@ -16,16 +16,29 @@ import java.util.Optional;
  */
 public final class ConnectionPool {
 
+    /** Instance of the Singleton */
     private static ConnectionPool instance;
+    /** Pool Properties */
     private static PoolProperties properties;
 
+    /** List of pool connections */
     private final List<ConexaoPool> conexoes;
+    /** Internal variable to store connection tries */
     private int tries = 0;
 
+    /**
+     * Private constructor
+     */
     private ConnectionPool() {
         this.conexoes = new ArrayList<>();
     }
 
+    /**
+     * Adds a connection to the pool
+     *
+     * @param conn
+     * @throws DBException
+     */
     public void addConnection(ConexaoPool conn) throws DBException {
         if (conexoes.size() >= properties.getMaxConnections()) {
             throw new DBException("Pool is full!");
@@ -33,15 +46,27 @@ public final class ConnectionPool {
         conexoes.add(conn);
     }
 
+    /**
+     * Returns a connection of the pool
+     *
+     * @return ConexaoPool
+     * @throws EmptyPoolException
+     */
     public ConexaoPool getConnection() throws EmptyPoolException {
-        ConexaoPool conn = getPoolConnection();
         tries = 0;
+        ConexaoPool conn = getPoolConnection();
         return conn;
     }
 
+    /**
+     * Returns a connection from the pool, with all the logic
+     *
+     * @return ConexaoPool
+     * @throws EmptyPoolException
+     */
     private ConexaoPool getPoolConnection() throws EmptyPoolException {
         // Recursive protection for not entering in infinite loop
-        if (tries++ > properties.getMaxTries()) {
+        if (++tries > properties.getMaxTries()) {
             throw new RuntimeException("Failed to create a new Connection after " + properties.getMaxTries() + " tries.");
         }
         // Try to get a free connection on the pool
@@ -61,6 +86,11 @@ public final class ConnectionPool {
         return getPoolConnection();
     }
 
+    /**
+     * Returns the Pool Singleton Instance
+     *
+     * @return ConexaoPool
+     */
     public static ConnectionPool get() {
         if (instance == null) {
             instantiate();
@@ -68,6 +98,10 @@ public final class ConnectionPool {
         return instance;
     }
 
+    /**
+     * Instantiate the pool using double checked synchronization to optimize
+     * performance
+     */
     private static synchronized void instantiate() {
         if (instance == null) {
             instance = new ConnectionPool();
@@ -77,6 +111,9 @@ public final class ConnectionPool {
         }
     }
 
+    /**
+     * Executed by the runtime on the finish of the application
+     */
     private void onFinish() {
         this.conexoes.forEach(ConexaoPool::jdbcClose);
     }

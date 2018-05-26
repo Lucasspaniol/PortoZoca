@@ -12,6 +12,21 @@ package br.portozoca.ws.database;
  */
 public interface ConexaoPool extends Conexao {
 
+    /**
+     * Returns true if the connection is free to be used
+     *
+     * @return boolean
+     */
+    public boolean isFree();
+
+    /**
+     * Free a connection to be used
+     */
+    public void free();
+
+    /**
+     * Closes the Jdbc Connection
+     */
     public void jdbcClose();
 
 }

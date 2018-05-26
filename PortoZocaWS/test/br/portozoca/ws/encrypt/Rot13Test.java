@@ -16,15 +16,16 @@ import static org.junit.Assert.*;
  */
 public class Rot13Test {
 
-    private static Criptography instance = CryptUtils.rot13();
+    /** Encriptor instance */
+    private final Criptography instance = CryptUtils.rot13();
 
     /**
      * Test of encrypt method, of class Rot13.
      */
     @Test
     public void testEncrypt() {
-        String input = "teste";
-        assertEquals("grfgr", instance.encrypt(input));
+        String input = "portozoca.encript.rot13";
+        assertEquals("cbegbmbpn.rapevcg.ebg13", instance.encrypt(input));
     }
 
     /**

@@ -16,7 +16,8 @@ import static org.junit.Assert.*;
  */
 public class Base64Test {
 
-    private static Criptography instance = CryptUtils.base64();
+    /** Encriptor instance */
+    private final Criptography instance = CryptUtils.base64();
 
     /**
      * Test of encrypt method, of class Base64.

@@ -6,19 +6,36 @@
 package br.portozoca.ws.database;
 
 /**
+ * Database Exception
  *
  * @author joaovperin
  */
 public class DBException extends Exception {
 
+    /**
+     * Constructor
+     *
+     * @param string
+     */
     public DBException(String string) {
         super(string);
     }
 
+    /**
+     * Constructor
+     *
+     * @param thrwbl
+     */
     public DBException(Throwable thrwbl) {
         super(thrwbl);
     }
 
+    /**
+     * Constructor
+     *
+     * @param string
+     * @param thrwbl
+     */
     public DBException(String string, Throwable thrwbl) {
         super(string, thrwbl);
     }

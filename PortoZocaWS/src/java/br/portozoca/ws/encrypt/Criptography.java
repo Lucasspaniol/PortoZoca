@@ -12,12 +12,38 @@ package br.portozoca.ws.encrypt;
  */
 public interface Criptography {
 
+    /**
+     * Encrypts an Input
+     *
+     * @param input
+     * @return String
+     */
     public String encrypt(String input);
 
+    /**
+     * Encrypts an Input based on an cryptograph key
+     *
+     * @param input
+     * @param key
+     * @return String
+     */
     public String encrypt(String input, String key);
 
+    /**
+     * Decrypts an Input
+     *
+     * @param input
+     * @return String
+     */
     public String decrypt(String input);
 
+    /**
+     * Decrypts an Input based on an cryptograph key
+     *
+     * @param input
+     * @param key
+     * @return String
+     */
     public String decrypt(String input, String key);
 
 }

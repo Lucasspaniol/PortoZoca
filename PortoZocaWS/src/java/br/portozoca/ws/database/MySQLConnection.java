@@ -44,6 +44,12 @@ public class MySQLConnection implements ConexaoPool {
         this.free = true;
     }
 
+    /**
+     * Creates a SQL Statement
+     *
+     * @return Statement
+     * @throws DBException
+     */
     @Override
     public Statement createStmt() throws DBException {
         try {
@@ -54,6 +60,12 @@ public class MySQLConnection implements ConexaoPool {
         }
     }
 
+    /**
+     * Prepares a SQL Statement
+     *
+     * @return PreparedStatement
+     * @throws DBException
+     */
     @Override
     public PreparedStatement prepareStmt(String sql) throws DBException {
         try {
@@ -64,16 +76,29 @@ public class MySQLConnection implements ConexaoPool {
         }
     }
 
+    /**
+     * Frees the connection
+     */
     @Override
     public void free() {
         this.free = true;
     }
 
+    /**
+     * Returns true if the connection is Free
+     *
+     * @return boolean
+     */
     @Override
     public boolean isFree() {
         return free;
     }
 
+    /**
+     * Commits the transaction
+     *
+     * @throws DBException
+     */
     @Override
     public void commit() throws DBException {
         if (readOnly) {
@@ -87,6 +112,11 @@ public class MySQLConnection implements ConexaoPool {
         }
     }
 
+    /**
+     * Rollbacks the transaction
+     *
+     * @throws DBException
+     */
     @Override
     public void rollback() {
         if (readOnly) {
@@ -100,6 +130,9 @@ public class MySQLConnection implements ConexaoPool {
         }
     }
 
+    /**
+     * Closes the connection
+     */
     @Override
     public void close() {
         // If is a ready-only connection, just mark it as free and not close that.
@@ -110,6 +143,9 @@ public class MySQLConnection implements ConexaoPool {
         jdbcClose();
     }
 
+    /**
+     * Closes the jdbc connection
+     */
     @Override
     public final void jdbcClose() {
         try {

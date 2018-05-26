@@ -16,7 +16,8 @@ import static org.junit.Assert.*;
  */
 public class Md5Test {
 
-    private static Criptography instance = CryptUtils.md5();
+    /** Encriptor instance */
+    private final Criptography instance = CryptUtils.md5();
 
     /**
      * Test of encrypt method, of class Md5.
