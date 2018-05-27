@@ -5,8 +5,14 @@ package br.portozoca.ws.servlet;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import br.portozoca.ws.database.Conexao;
+import br.portozoca.ws.database.ConexaoFactory;
+import br.portozoca.ws.database.DBException;
+import br.portozoca.ws.entidade.Produto;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -16,8 +22,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
- * @author programacao
+ * Produtos Controller
+ * 
+ * @author joaovperin
  */
 @WebServlet("/produto")
 public class Produtos extends HttpServlet {
@@ -34,34 +41,44 @@ public class Produtos extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        // response.sendRedirect("/PortoZoca/batata/index.jsp");
+        // Says to browser if have to render as an HTML
         response.setContentType("text/html;charset=UTF-8");
-//        response.sendRedirect("/PortoZoca/batata/index.jsp");
-
-        List<Produto> list = new ArrayList<>();
-        list.add(new Produto(1, "batata"));
-        list.add(new Produto(2, "trigo"));
-        list.add(new Produto(3, "cachaça"));
-        list.add(new Produto(4, "tfdsfdsfds"));
-
+        // Starts writing to the response stream
         try (PrintWriter out = response.getWriter()) {
             out.println("<h1>Produtos:</h1>");
-            for (Produto p : list) {
-                out.printf("<p>Produto %d - %s </p>", p.codigo, p.descricao);
-            }
-            out.println("Fim produtos");
+            getProdutos().forEach((Produto p) -> {
+                out.printf("<h3>Produto %d (%s) - %s </h3>", p.getProdutoId(), p.getReferencia(), p.getDescricao());
+                if (p.getObservacao() != null) {
+                    out.printf("<p>Obs: %s </p>", p.getObservacao());
+                }
+            });
+            out.println("<br/><br/><br/><h3>Fim</h3>.");
+            out.flush();
         }
     }
 
-    private class Produto {
-
-        int codigo;
-        String descricao;
-
-        public Produto(int codigo, String descricao) {
-            this.codigo = codigo;
-            this.descricao = descricao;
+    /**
+     * Reads a list of products from the database and return to the page
+     *
+     * @return List
+     */
+    private List<Produto> getProdutos() {
+        List<Produto> list = new ArrayList<>();
+        try (Conexao conn = ConexaoFactory.query()) {
+            ResultSet rs = conn.createStmt().executeQuery("SELECT ProdutoId, Referencia, Descricao, Observacao FROM Produto");
+            while (rs.next()) {
+                Produto p = new Produto();
+                p.setProdutoId(rs.getInt(1));
+                p.setReferencia(rs.getString(2));
+                p.setDescricao(rs.getString(3));
+                p.setObservacao(rs.getString(4));
+                list.add(p);
+            }
+        } catch (DBException | SQLException ex) {
+            System.out.println("*** Falha ao carregar os produtos.");
         }
-
+        return list;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
