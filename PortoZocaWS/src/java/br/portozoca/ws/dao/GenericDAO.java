@@ -142,4 +142,19 @@ public class GenericDAO<B> implements DataAccessObject<B> {
         return sb.toString();
     }
 
+    @Override
+    public boolean insert(B bean) throws DBException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean update(B bean) throws DBException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean delete(B bean) throws DBException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

@@ -18,7 +18,7 @@ import java.util.List;
  *
  * @author joaovperin
  */
-public class ProdutoDAO extends GenericDAO<Produto> {
+public class ProdutoDAO extends GenericDAO<Produto> implements DataAccessObject<Produto> {
 
     /** Select Statement */
     private static final String SQL_SELECT = "SELECT ProdutoId, Referencia, Descricao, Observacao FROM Produto";

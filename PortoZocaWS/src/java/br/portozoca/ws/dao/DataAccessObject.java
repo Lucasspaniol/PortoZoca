@@ -24,4 +24,31 @@ public interface DataAccessObject<B> {
      */
     public List<B> select() throws DBException;
 
+    /**
+     * INSERT a register on the database and returns true if it works
+     *
+     * @param bean
+     * @return List
+     * @throws DBException
+     */
+    public boolean insert(B bean) throws DBException;
+
+    /**
+     * UPDATE a register on the database and returns true if it's modified
+     *
+     * @param bean
+     * @return List
+     * @throws DBException
+     */
+    public boolean update(B bean) throws DBException;
+
+    /**
+     * DELETE a register on the database and returns true if it's deleted
+     *
+     * @param bean
+     * @return List
+     * @throws DBException
+     */
+    public boolean delete(B bean) throws DBException;
+
 }
