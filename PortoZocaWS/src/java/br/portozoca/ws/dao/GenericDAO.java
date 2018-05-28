@@ -6,18 +6,14 @@
 package br.portozoca.ws.dao;
 
 import br.portozoca.ws.database.Conexao;
-import br.portozoca.ws.database.ConexaoFactory;
 import br.portozoca.ws.database.DBException;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * A Generic Data Access Object
@@ -25,8 +21,10 @@ import java.util.logging.Logger;
  * @author joaovperin
  * @param <B> Bean class
  */
-public class GenericDAO<B> {
+public class GenericDAO<B> implements DataAccessObject<B> {
 
+    /** Bean Class */
+    private final Class<?> beanClass;
     /** Connection to the database */
     protected final Conexao conn;
 
@@ -34,48 +32,35 @@ public class GenericDAO<B> {
      * Constructor that receives the connection
      *
      * @param conn
+     * @param beanClass
      */
-    public GenericDAO(Conexao conn) {
+    public GenericDAO(Conexao conn, Class<?> beanClass) {
+        this.beanClass = beanClass;
         this.conn = Objects.requireNonNull(conn, "A valid connection is needed.");
-    }
-
-    /**
-     * TESTING PURPOSES ONLY.
-     *
-     * @param args
-     * @throws DBException
-     */
-    public static void main(String[] args) throws DBException {
-        try (Conexao c = ConexaoFactory.query()) {
-            new GenericDAO<>(c).select().forEach((p) -> {
-                System.out.println("Produto: " + p);
-            });
-        }
     }
 
     /**
      * Executes a SELECT statement on the database and returns a list of beans
      *
-     *
-     * @return List<B>
+     * @return List
      * @throws DBException
      */
+    @Override
     public List<B> select() throws DBException {
         List<B> list = new ArrayList<>();
         try (ResultSet rs = conn.createStmt().executeQuery(buildSelectStmt())) {
             while (rs.next()) {
-                B bean = createBean();
-                Class<?> beanClazz = bean.getClass();
-                int i = 1;
-                for (Field field : beanClazz.getDeclaredFields()) {
-                    try {
+                try {
+                    B bean = createBean();
+                    int i = 1;
+                    for (Field field : beanClass.getDeclaredFields()) {
                         Object value = getGetterFromRs(field).invoke(rs, i++);
-                        getSetter(beanClazz, field).invoke(bean, value);
-                    } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-                        throw new DBException(e);
+                        getSetter(field).invoke(bean, value);
                     }
+                    list.add(bean);
+                } catch (ReflectiveOperationException e) {
+                    throw new DBException(e);
                 }
-                list.add(bean);
             }
         } catch (DBException | SQLException e) {
             throw new DBException(e);
@@ -87,37 +72,44 @@ public class GenericDAO<B> {
      * Create a new Bean Instance
      *
      * @return B
+     * @throws java.lang.ReflectiveOperationException
      */
-    public B createBean() {
+    public B createBean() throws ReflectiveOperationException {
         try {
-            // TODO: Unhardcode this.
-            return (B) Class.forName("br.portozoca.ws.entidade.Produto").newInstance();
-//            return (B) Class.forName(this.getClass().getSimpleName().replace("DAO", "")).newInstance();
-        } catch (Exception ex) {
-            Logger.getLogger(GenericDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return (B) beanClass.newInstance();
+        } catch (IllegalAccessException | InstantiationException ex) {
+            throw new ReflectiveOperationException(ex);
         }
-        return null;
     }
 
-    public Method getSetter(Class c, Field f) {
+    /**
+     * Get the appropriate bean Setter method
+     *
+     * @param field
+     * @return Method
+     * @throws java.lang.ReflectiveOperationException
+     */
+    public Method getSetter(Field field) throws ReflectiveOperationException {
         try {
-//            if (f.getType().equals(Boolean.class)) {
-//                return c.getMethod("is" + f.getName(), Boolean.class);
-//            }
-            return c.getMethod("set" + capitalize(f.getName()), f.getType());
+            return beanClass.getMethod("set" + capitalize(field.getName()), field.getType());
         } catch (NoSuchMethodException | SecurityException ex) {
-            Logger.getLogger(GenericDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ReflectiveOperationException(ex);
         }
-        return null;
     }
 
-    public Method getGetterFromRs(Field f) {
+    /**
+     * Get the ResultSet appropriate Getter method
+     *
+     * @param field
+     * @return Method
+     * @throws ReflectiveOperationException
+     */
+    public Method getGetterFromRs(Field field) throws ReflectiveOperationException {
         try {
-            return ResultSet.class.getMethod("get" + capitalize(f.getType().getSimpleName()), int.class);
+            return ResultSet.class.getMethod("get" + capitalize(field.getType().getSimpleName()), int.class);
         } catch (NoSuchMethodException | SecurityException ex) {
-            Logger.getLogger(GenericDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ReflectiveOperationException(ex);
         }
-        return null;
     }
 
     /**
@@ -136,8 +128,18 @@ public class GenericDAO<B> {
      * @return String
      */
     private String buildSelectStmt() {
-        // TODO: Unhardcode this.
-        return "SELECT ProdutoId, Referencia, Descricao, Observacao FROM Produto";
+        StringBuilder sb = new StringBuilder(256);
+        sb.append("SELECT ");
+        Field[] fields = beanClass.getDeclaredFields();
+        for (int i = 0; i < fields.length; i++) {
+            Field field = fields[i];
+            sb.append(field.getName());
+            if (i < fields.length - 1) {
+                sb.append(", ");
+            }
+        }
+        sb.append(" FROM ").append(beanClass.getSimpleName());
+        return sb.toString();
     }
 
 }

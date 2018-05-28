@@ -20,12 +20,24 @@ import java.util.List;
  */
 public class ProdutoDAO extends GenericDAO<Produto> {
 
+    /** Select Statement */
     private static final String SQL_SELECT = "SELECT ProdutoId, Referencia, Descricao, Observacao FROM Produto";
 
+    /**
+     * Constructor
+     *
+     * @param conn
+     */
     public ProdutoDAO(Conexao conn) {
-        super(conn);
+        super(conn, Produto.class);
     }
 
+    /**
+     * Select method
+     *
+     * @return List
+     * @throws DBException
+     */
     @Override
     public final List<Produto> select() throws DBException {
         List<Produto> list = new ArrayList<>();
