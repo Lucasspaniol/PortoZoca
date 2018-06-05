@@ -10,10 +10,11 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>WMS Porto Zoca</title>
+        <link rel="stylesheet" type="text/css" href="https://unpkg.com/papercss/dist/paper.min.css">
     </head>
     <body>
-        
-        
+
+
         <h1>Menu principal</h1>
         <h2>Este é o menu principal, aqui você pode selecionar a função que você quer que nosso sistema execute, e talvez, essa função será executada!</h2>
         <input type="button" 
@@ -31,6 +32,6 @@
                value="LPN's" 
                style = "width: 100px" 
                onclick="window.location.href = '/PortoZoca/lpn/index.jsp'">
-        
+
     </body>
 </html>
