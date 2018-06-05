@@ -8,45 +8,33 @@ package br.portozoca.ws.entidade;
  * @author Spaniol
  */
 public class Localizacao {
-    private int id;
+    private int localizacaoid;
     private String division;
     private Localizacao sup;
-    
-    public Localizacao(String divisao) {
-        this.division = divisao;
-        this.sup = null;
-    }
-    
-    public Localizacao(int id) {
-        this.id = id;
-        
-        //Ler e carregar dados do banco de dados
-        
-    }
-    
-    private Localizacao(String divisao, Localizacao sup) {
-        this.division = divisao;
-        this.sup = sup;
+    private String observacao;
+
+    public String getObservacao() {
+        return observacao;
     }
 
-    public Localizacao() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
+    }
+    
+    public int getLocalizacaoid() {
+        return localizacaoid;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public void setLocalizacaoid(int localizacaoid) {
+        this.localizacaoid = localizacaoid;
     }
 
     public String getDivision() {
         return division;
     }
 
-    public void setDivision(String divisao) {
-        this.division = divisao;
+    public void setDivision(String division) {
+        this.division = division;
     }
 
     public Localizacao getSup() {
@@ -57,9 +45,8 @@ public class Localizacao {
         this.sup = sup;
     }
     
-    //Cria filho da estrutura
-    public Localizacao createDivision(String division) {
-        Localizacao divisao = new Localizacao(division);
-        return divisao;
+    @Override
+    public String toString() {
+        return "Produto{" + "localizacaoid=" + localizacaoid + ", division=" + division + ", sup=" + sup.getDivision();
     }
 }
