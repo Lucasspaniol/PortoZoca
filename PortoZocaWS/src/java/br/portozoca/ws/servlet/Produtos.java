@@ -11,6 +11,8 @@ import br.portozoca.ws.database.DBException;
 import br.portozoca.ws.entidade.Produto;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -23,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Produtos Controller
- * 
+ *
  * @author joaovperin
  */
 @WebServlet("/produto")
@@ -64,21 +66,32 @@ public class Produtos extends HttpServlet {
      * @return List
      */
     private List<Produto> getProdutos() {
+        // Cria uma lista de produtos
         List<Produto> list = new ArrayList<>();
-        try (Conexao conn = ConexaoFactory.query()) {
-            ResultSet rs = conn.createStmt().executeQuery("SELECT ProdutoId, Referencia, Descricao, Observacao FROM Produto");
+        // Cria uma conexão com o banco de dados para consulta
+        try (Connection conn = getConnection()) {
+            // Cria um Statement e executa uma consulta no banco
+            ResultSet rs = conn.createStatement().executeQuery("SELECT ProdutoId, Referencia, Descricao, Observacao FROM Produto");
+            // Percorre os resultados
             while (rs.next()) {
+                // Cria um novo produto e vai setando os parâmetros conforme veio do banco (em ordem)
                 Produto p = new Produto();
                 p.setProdutoId(rs.getInt(1));
                 p.setReferencia(rs.getString(2));
                 p.setDescricao(rs.getString(3));
                 p.setObservacao(rs.getString(4));
+                // Adiciona o produto na lista
                 list.add(p);
             }
-        } catch (DBException | SQLException ex) {
+            // Se der exception printa na tela
+        } catch ( SQLException ex) {
             System.out.println("*** Falha ao carregar os produtos.");
         }
         return list;
+    }
+    // Cria uma conexão com o banco de dados
+    private Connection getConnection() throws SQLException{
+        return DriverManager.getConnection("jdbc:mysql://blablabla.bancodedados.com:3306");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

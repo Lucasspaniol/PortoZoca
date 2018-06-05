@@ -70,7 +70,7 @@ public class MySQLConnection implements ConexaoPool {
     public PreparedStatement prepareStmt(String sql) throws DBException {
         try {
             this.free = false;
-            return conn.prepareStatement(sql);
+            return conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         } catch (SQLException ex) {
             throw new DBException(ex);
         }
