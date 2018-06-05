@@ -13,11 +13,6 @@ public class Localizacao {
     private Localizacao sup;
     
     public Localizacao(String divisao) {
-        if (GeraIdLocalizacao.newId == 0){
-            // Deve ler o maior ID gerado no banco de dados
-            GeraIdLocalizacao.newId = 1;
-        }
-        this.id = GeraIdLocalizacao.getNewId();
         this.division = divisao;
         this.sup = null;
     }
@@ -30,13 +25,12 @@ public class Localizacao {
     }
     
     private Localizacao(String divisao, Localizacao sup) {
-        if (GeraIdLocalizacao.newId == 0){
-            // Deve ler o maior ID gerado no banco de dados e atribuir à newId
-            GeraIdLocalizacao.newId = 1;
-        }
-        this.id = GeraIdLocalizacao.getNewId();
         this.division = divisao;
         this.sup = sup;
+    }
+
+    public Localizacao() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public int getId() {
@@ -68,13 +62,4 @@ public class Localizacao {
         Localizacao divisao = new Localizacao(division);
         return divisao;
     }
-    
-    //Classe criada para gerar ID sequêncial
-    private static class GeraIdLocalizacao {
-        public static int newId = 0;
-        
-        public static int getNewId() {
-            return ++newId;
-        }
-    }
-} 
+}
