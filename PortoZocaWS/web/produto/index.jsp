@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="t" uri="/WEB-INF/tlds/tags"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,5 +14,6 @@
     </head>
     <body>
         <h1>Hello World!</h1>
+        <t:header message="hehe teste tag"></t:header>
     </body>
 </html>

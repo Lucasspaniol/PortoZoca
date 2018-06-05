@@ -35,6 +35,15 @@ public final class ConexaoFactory {
         Runtime.getRuntime().addShutdownHook(new Thread(ConexaoFactory::onFinish));
     }
 
+    public static final void start() {
+        new Thread(() -> {
+            registerDriver();
+            try (Conexao c = query()) {
+            } catch (DBException ex) {
+            }
+        }).start();
+    }
+
     /**
      * Prevents instantiation
      */
