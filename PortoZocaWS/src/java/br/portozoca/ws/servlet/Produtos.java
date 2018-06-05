@@ -65,7 +65,7 @@ public class Produtos extends HttpServlet {
      *
      * @return List
      */
-    private List<Produto> getProdutos() {
+    public List<Produto> getProdutos() {
         // Cria uma lista de produtos
         List<Produto> list = new ArrayList<>();
         // Cria uma conexão com o banco de dados para consulta
