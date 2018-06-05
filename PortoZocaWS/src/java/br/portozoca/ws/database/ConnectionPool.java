@@ -23,8 +23,6 @@ public final class ConnectionPool {
 
     /** List of pool connections */
     private final List<ConexaoPool> conexoes;
-    /** Internal variable to store connection tries */
-    private int tries = 0;
 
     /**
      * Private constructor
@@ -39,7 +37,7 @@ public final class ConnectionPool {
      * @param conn
      * @throws DBException
      */
-    public void addConnection(ConexaoPool conn) throws DBException {
+    public synchronized void addConnection(ConexaoPool conn) throws DBException {
         if (conexoes.size() >= properties.getMaxConnections()) {
             throw new DBException("Pool is full!");
         }
@@ -52,9 +50,8 @@ public final class ConnectionPool {
      * @return ConexaoPool
      * @throws EmptyPoolException
      */
-    public ConexaoPool getConnection() throws EmptyPoolException {
-        tries = 0;
-        ConexaoPool conn = getPoolConnection();
+    public ConexaoPool getConnection() throws EmptyPoolException, DBException {
+        ConexaoPool conn = getPoolConnection(0);
         return conn;
     }
 
@@ -64,15 +61,18 @@ public final class ConnectionPool {
      * @return ConexaoPool
      * @throws EmptyPoolException
      */
-    private ConexaoPool getPoolConnection() throws EmptyPoolException {
+    private ConexaoPool getPoolConnection(int tries) throws EmptyPoolException, DBException {
         // Recursive protection for not entering in infinite loop
-        if (++tries > properties.getMaxTries()) {
-            throw new RuntimeException("Failed to create a new Connection after " + properties.getMaxTries() + " tries.");
+        if (tries > properties.getMaxTries()) {
+            throw new DBException("Failed to create a new Connection after " + properties.getMaxTries() + " tries.");
         }
-        // Try to get a free connection on the pool
-        Optional<ConexaoPool> opt = conexoes.stream().filter((c) -> c.isFree()).findFirst();
-        if (opt.isPresent()) {
-            return opt.get();
+        // Synchronized
+        synchronized (conexoes) {
+            // Try to get a free connection on the pool
+            Optional<ConexaoPool> opt = conexoes.stream().filter((c) -> c.isFree()).findFirst();
+            if (opt.isPresent()) {
+                return opt.get();
+            }
         }
         // If it's not full and it don't have any free connections, throws an EmptyPoolException so the caller can create one
         if (conexoes.size() < properties.getMaxConnections()) {
@@ -83,7 +83,7 @@ public final class ConnectionPool {
             Thread.sleep(properties.getAwaitingTime());
         } catch (InterruptedException ex) {
         }
-        return getPoolConnection();
+        return getPoolConnection(++tries);
     }
 
     /**
