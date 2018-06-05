@@ -25,7 +25,7 @@
                name="botao-localizacao" 
                value="Localização" 
                style = "width: 100px" 
-               onclick="window.location.href = '/PortoZoca/localizacao/localizacao.jsp'">
+               onclick="window.location.href = '/PortoZoca/localizacao'">
         <input type="button" 
                name="botao-lpn" 
                value="LPN's" 

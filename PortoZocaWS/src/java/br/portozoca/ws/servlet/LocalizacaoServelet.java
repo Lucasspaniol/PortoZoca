@@ -12,7 +12,6 @@ import br.portozoca.ws.database.ConexaoFactory;
 import br.portozoca.ws.database.DBException;
 import br.portozoca.ws.entidade.Localizacao;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,7 +24,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Spaniol
  */
-@WebServlet(name = "/localizacao")
+@WebServlet("/localizacao")
 public class LocalizacaoServelet extends HttpServlet {
 
     /**
@@ -43,14 +42,14 @@ public class LocalizacaoServelet extends HttpServlet {
             DataAccessObject<Localizacao> dao = DAOFactory.create(Localizacao.class, conn);
             List<Localizacao> lista = dao.select();
             // Põe na lista
-            session.setAttribute("divisoesLocalizacao", lista);
+            session.setAttribute("Localizacoes", lista);
         } catch (DBException e) {
             // Se der exception, põe nos atributos
             session.setAttribute("error", "Não foi possível encontrar a localização.");
             session.setAttribute("exception", e);
         }
         // Redireciona para o test.jsp
-        resp.sendRedirect("localizacao/localizacao.jsp");
+        resp.sendRedirect("Localizacao/localizacao.jsp");
     }
 
 }

@@ -37,9 +37,9 @@
                 <th>Divisão</th>
                 <th>Exc</th>
             </tr>
-            <c:forEach items="${divisoesLocalizacao}" var="d" varStatus="idl">
+            <c:forEach items="${Localizacoes}" var="l" varStatus="idl">
                 <tr style="line-height: 130%; background-color: ${leitura.cor}; border-bottom: 1px solid lightgray;">
-                    <td>${d.divsao}</td>
+                    <td>${l.division}</td>
                     <td><input type="button" value="X" id="excluir" onclick="botaoExcluir('${d.divsao}')"></td>
                 </tr>
             </c:forEach>
