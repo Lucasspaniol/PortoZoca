@@ -15,26 +15,28 @@
     </head>
     <body>
         <h2 align="center"> Login :D</h2>
-
     <center>
+        <%-- Formulário de login --%>
         <form method="POST" action="/PortoZoca/Login">
             <label for="user">User</label>
             <input type="text" name="user" id="user" placeholder="Usuário"/>
             <label for="pass">Pass</label>
-            <input type="text" name="pass" placeholder="Senha"/>
+            <input type="password" name="pass" placeholder="Senha"/>
             <br/>
             <input type="submit" value="Login">
-            <a href="javascript:alert('se fudeu bocaberta')">Esqueci minha senha :/</a>
+            <br/><a href="javascript:alert('se fudeu bocaberta')">Esqueci minha senha :/</a>
         </form>
-
+        <%-- Mensagens --%>
+        <c:if test="${not empty msg}">
+            <br/><br/><h2>Mensagem: </h2>
+            <div class="alert alert-success">${msg}</div>
+            <% request.setAttribute("msg", null); %>
+        </c:if>
         <c:if test="${not empty error}">
-           <br/>
-           <br/>
-           <h2>Erro: ${error}.</h2>
+            <br/><br/><h2>Erro: </h2>
+            <div class="alert alert-danger">${error}</div>
+            <% request.setAttribute("error", null);%>
         </c:if>
     </center>
-
-    <script type="text/javascript">
-    </script>
 </body>
 </html>

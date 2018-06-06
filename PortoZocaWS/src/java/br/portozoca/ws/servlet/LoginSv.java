@@ -23,17 +23,25 @@ import javax.servlet.http.HttpSession;
 @WebServlet("/Login")
 public class LoginSv extends HttpServlet {
 
+    private static final String ADMIN = "admin";
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession ses = req.getSession(true);
-
-        Usuario usr = LoginService.autentica(req.getParameter("user"), req.getParameter("pass"));
-        if (usr != null) {
-            ses.setAttribute("userlogado", usr);
+        String usr = req.getParameter("user");
+        String pass = req.getParameter("pass");
+        // Autentica
+        Usuario user = LoginService.autentica(usr, pass);
+        if (user != null) {
+            ses.setAttribute("userlogado", user);
             resp.sendRedirect("index.jsp");
         } else {
             // Redirect to login
-            req.setAttribute("error", "Você não é o Adalberto.");
+            String msgErro = "Você não é o Adalberto.";
+            if (usr != null && pass != null && ADMIN.equalsIgnoreCase(usr) && ADMIN.equalsIgnoreCase(pass)) {
+                msgErro = "ENGRAÇADINHO VOCÊ, FERA. Admin Admin é a mãe.";
+            }
+            req.setAttribute("error", msgErro);
             RequestDispatcher rd = req.getServletContext().getRequestDispatcher("/login/form.jsp");
             rd.forward(req, resp);
         }

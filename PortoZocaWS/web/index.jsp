@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : index
     Created on : 23/05/2018, 21:16:31
     Author     : programacao
@@ -16,28 +16,36 @@
     <body>
 
         <c:if test="${not empty userlogado}">
-            Bem vindo, Srº ${userlogado.apelido}
+            <div class="alert alert-secondary" style="height: 90px">
+                <div style="float: right;">
+                    <button onclick="window.location.href = '/PortoZoca/Logout'">Logout</button>
+                </div>
+                <div style="text-align: center;padding-top: 13px;font-size: 33px;">
+                    Bem vindo, Srº <c:out value='${userlogado.apelido != null ? userlogado.apelido : "Usuário desconhecido."}'></c:out>
+                    </div>
+                </div>
+                <br/>
         </c:if>
-        <c:if test="${empty userlogado}">
+        <c:if test="${empty userlogado}">17
             <% response.sendRedirect("login/form.jsp"); %>
         </c:if>
 
         <h1>Menu principal</h1>
         <h2>Este é o menu principal, aqui você pode selecionar a função que você quer que nosso sistema execute, e talvez, essa função será executada!</h2>
-        <input type="button" 
-               name="botao-produto" 
-               value="Produto" 
-               style = "width: 200px" 
+        <input type="button"
+               name="botao-produto"
+               value="Produto"
+               style = "width: 200px"
                onclick="window.location.href = '/PortoZoca/produto'">
-        <input type="button" 
-               name="botao-localizacao" 
-               value="Localização" 
-               style = "width: 200px" 
+        <input type="button"
+               name="botao-localizacao"
+               value="Localização"
+               style = "width: 200px"
                onclick="window.location.href = '/PortoZoca/localizacao'">
-        <input type="button" 
-               name="botao-lpn" 
-               value="LPN's" 
-               style = "width: 200px" 
+        <input type="button"
+               name="botao-lpn"
+               value="LPN's"
+               style = "width: 200px"
                onclick="window.location.href = '/PortoZoca/lpn/index.jsp'">
 
         <!-- Abre uma conexão e  o Driver JDBC -->
