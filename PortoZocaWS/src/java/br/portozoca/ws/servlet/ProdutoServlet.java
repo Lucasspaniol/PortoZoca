@@ -42,14 +42,23 @@ public class ProdutoServlet extends HttpServlet {
         try (Conexao conn = ConexaoFactory.transaction()) {
             DataAccessObject<Produto> dao = DAOFactory.create(Produto.class, conn);
             // Check's if user include product
-            if (req.getParameter("botaoProdut") != null
-                    && req.getParameter("botaoProdut").equalsIgnoreCase("sim")) {
+            if (req.getParameter("botaoAdd") != null
+                    && req.getParameter("botaoAdd").equalsIgnoreCase("sim")) {
                 Produto p = new Produto();
                 p.setReferencia(req.getParameter("referencia"));
                 p.setDescricao(req.getParameter("descricao"));
                 dao.insert(p);
                 conn.commit();
                 req.setAttribute("gravou_ok", "true");
+            }
+            // Check's if user exclude product
+            if (req.getParameter("botaoExc") != null
+                    && req.getParameter("botaoExc").equalsIgnoreCase("sim")) {
+                Produto p = new Produto();
+                p.setProdutoId(Integer.parseInt(req.getParameter("id")));
+                dao.delete(p);
+                conn.commit();
+                req.setAttribute("deletou_ok", "true");
             }
             // Reads all the products 
             List<Produto> lista = dao.select();

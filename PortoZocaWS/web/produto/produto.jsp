@@ -12,11 +12,15 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Produtos</title>
         <script type="text/javascript">
-            // Define a URL ao clicar no botão "Produtos"
+            // Chama inclusão de produtos
             function botaoAdd() {
                 var referencia = document.getElementById("Referencia").value;
                 var descricao = document.getElementById("Descricao").value;
-                window.location = "\\PortoZoca\\produto?botaoProdut=Sim" + "&referencia=" + referencia + "&descricao=" + descricao;
+                window.location = "\\PortoZoca\\produto?botaoAdd=Sim" + "&referencia=" + referencia + "&descricao=" + descricao;
+            }
+            // Chama exclusão de produtos
+            function botaoExc(id) {
+                window.location = "\\PortoZoca\\produto?botaoExc=Sim" + "&id=" + id;
             }
             
         </script>
@@ -39,6 +43,12 @@
         
         <c:if test="${not empty gravou_ok}">
             <m:modal message="Gravou produto com sucesso!"
+                     substitle="DEU BOM"
+                     title="Informação!">
+            </m:modal>
+        </c:if>
+        <c:if test="${not empty deletou_ok}">
+            <m:modal message="Excluiu produto com sucesso!"
                      substitle="DEU BOM"
                      title="Informação!">
             </m:modal>
@@ -66,7 +76,7 @@
                     <td>${p.produtoId}</td>
                     <td>${p.referencia}</td>
                     <td>${p.descricao}</td>
-                    <td><input type="button" value="X" id="excluir" onclick=""></td>
+                    <td><input type="button" value="X" id="excluir" onclick="botaoExc(${p.produtoId})"></td>
                 </tr>
             </c:forEach>
         </table>
