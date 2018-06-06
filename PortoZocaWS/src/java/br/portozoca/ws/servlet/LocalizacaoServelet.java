@@ -26,7 +26,9 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet("/localizacao")
 public class LocalizacaoServelet extends HttpServlet {
-
+    
+    private Localizacao locAtual;
+    
     /**
      *
      * @param req
@@ -37,15 +39,39 @@ public class LocalizacaoServelet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(true);
+        //Retorna parametros
+        String supId = req.getParameter("loc");
+        String addDiv = req.getParameter("addDiv");
+        String Div = req.getParameter("Div");
+        
+        if ("Sim".equals(addDiv)) {
+            
+            
+            
+        }
+        
+        
         // Le as localizações
         try (Conexao conn = ConexaoFactory.query()) {
+            //Lê a localização
+            List<Localizacao> lista;
             DataAccessObject<Localizacao> dao = DAOFactory.create(Localizacao.class, conn);
-            List<Localizacao> lista = dao.select();
-            // Põe na lista
+            if (supId == null || "".equals(supId)){
+                lista = dao.select("WHERE LocalizacaoSuperiorId IS NULL");
+            } else {
+                lista = dao.select("WHERE LocalizacaoSuperiorId = " + supId);
+            }
+            //Carrega atributos
+            if (lista.isEmpty()) {
+                session.setAttribute("error", "Não encontou nenhum localização");
+            } else {
+                session.setAttribute("error", " ");
+            }
             session.setAttribute("Localizacoes", lista);
+            session.setAttribute("Localizacao", supId);
         } catch (DBException e) {
             // Se der exception, põe nos atributos
-            session.setAttribute("error", "Não foi possível encontrar a localização.");
+            session.setAttribute("error", "Erro ao ler localizações");
             session.setAttribute("exception", e);
         }
         // Redireciona para o test.jsp

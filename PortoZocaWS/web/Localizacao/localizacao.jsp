@@ -12,23 +12,28 @@
         <title>Localizações</title>
         <script type="text/javascript">
             // Define a URL ao clicar no botão "Localização"
+            function botaoOk() {
+                var loc = document.getElementById("Localizacao").value;
+                window.location = "/PortoZoca/localizacao?loc="+loc;
+            }
             function botaoAdd() {
-                window.location = "?botaoLocaliz=Sim";
+                var div = document.getElementById("Divisao").value;
+                window.location = "/PortoZoca/localizacao?addDiv=Sim&Div="+div;
             }
         </script>
-        <style>
-            .botao {
-                height: 10px;
-                width: 40px;
-            }
-        </style>        
         <link rel="stylesheet" type="text/css" href="https://unpkg.com/papercss/dist/paper.min.css">
     </head>
     <body>
         <h2 align="center"> Localizações</h2>
-        <h4>Estrutura</h4>
-        <input type="text" value="${Localizacao}" name="Localizacao" id="Localizacao" size="80">
-        <input name="submit" type="button" value="Ok" onclick=" ">
+        <div id="acc">
+            <h4>Estrutura</h4>
+            <input type="text" value="${Localizacao}" name="Localizacao" id="Localizacao" size="80">
+            <input type="submit" value="OK" id="ok" class="botao" onclick="botaoOk()"/>
+        </div>
+        <!--Mensagem-->
+        <div id="msg" align="center">
+            ${error}
+        </div>            
         <table style="width: 100%; text-align: center; border-collapse: collapse;">
             <caption style="background-color: #06C; color: white;">
                 Divisões da localização
@@ -44,6 +49,9 @@
                 </tr>
             </c:forEach>
         </table>
-        <input type="button" value="Adicionar Divisão" id="add" onclick="botaoAdd()">
+        <div id="add">
+            <input type="text" value="${Divisao}" name="Divisao" id="Divisao" size="80">
+            <input type="button" value="Adicionar Divisão" id="add" onclick="botaoAdd()">
+         </div>
     </body>
 </html>
