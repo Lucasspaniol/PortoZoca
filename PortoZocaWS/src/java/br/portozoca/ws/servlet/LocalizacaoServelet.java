@@ -13,6 +13,7 @@ import br.portozoca.ws.database.DBException;
 import br.portozoca.ws.entidade.Localizacao;
 import java.io.IOException;
 import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,7 +39,8 @@ public class LocalizacaoServelet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession(true);
+        
+
         //Retorna parametros
         int supId;
         String estrutura = req.getParameter("loc");
@@ -48,12 +50,7 @@ public class LocalizacaoServelet extends HttpServlet {
         if ("Sim".equals(addDiv)) {
             
             
-            
             //locAtual.getEstrutura()
-            
-            
-            
-            
             
             
         }
@@ -89,21 +86,20 @@ public class LocalizacaoServelet extends HttpServlet {
             }
             //Carrega atributos
             if (lista.isEmpty()) {
-                session.setAttribute("error", "Não encontou nenhum localização");
+                req.setAttribute("error", "Não encontou nenhum localização");
             } else {
-                session.setAttribute("error", " ");
+                req.setAttribute("error", " ");
             }
-            session.setAttribute("Localizacoes", lista);
-            if (locAtual != null){
-                session.setAttribute("Localizacao", estrutura);
-            }
+            req.setAttribute("Localizacoes", lista);
+            req.setAttribute("Localizacao", estrutura);            
         } catch (DBException e) {
             // Se der exception, põe nos atributos
-            session.setAttribute("error", "Erro ao ler localizações");
-            session.setAttribute("exception", e);
+            req.setAttribute("error", "Erro ao ler localizações");
+            req.setAttribute("exception", e);
         }
-        // Redireciona para o test.jsp
-        resp.sendRedirect("Localizacao/localizacao.jsp");
+        // Redireciona para o localizacao.jsp
+        RequestDispatcher rd = req.getServletContext().getRequestDispatcher("/Localizacao/localizacao.jsp");
+        rd.forward(req, resp);
     }
     
 }
