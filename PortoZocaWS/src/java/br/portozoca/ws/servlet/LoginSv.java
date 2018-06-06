@@ -22,15 +22,13 @@ import javax.servlet.http.HttpSession;
 public class LoginSv extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession ses = req.getSession(true);
-        
         Usuario obj = new Usuario();
-        obj.setApelido((String) req.getAttribute("user"));
-        obj.setSenha((String) req.getAttribute("pass"));
+        obj.setApelido((String) req.getParameter("user"));
+        obj.setSenha((String) req.getParameter("pass"));
         ses.setAttribute("userlogado", obj);
-
+        // Redirect to index
         resp.sendRedirect("index.jsp");
     }
 

@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : produtos
     Created on : 06/06/2018, 23:26:18
     Author     : Jonas
@@ -17,24 +17,18 @@
         <h2 align="center"> Login :D</h2>
 
     <center>
-        <form method="GET" action="/PortoZoca/Login">
+        <form method="POST" action="/PortoZoca/Login">
             <label for="user">User</label>
-            <input type="text" name="user" placeholder="Usuário"></input>
+            <input type="text" name="user" id="user" placeholder="Usuário"/>
             <label for="pass">Pass</label>
-            <input type="text" name="pass" placeholder="Senha"></input>
-
-            <button type="submit" name="submit">Login</button>
+            <input type="text" name="pass" placeholder="Senha"/>
+            <br/>
+            <input type="submit" value="Login">
             <a href="javascript:alert('se fudeu bocaberta')">Esqueci minha senha :/</a>
         </form>
     </center>
 
     <script type="text/javascript">
-        // Chama inclusão de produtos
-        function botaoAdd() {
-            var referencia = document.getElementById("Referencia").value;
-            var descricao = document.getElementById("Descricao").value;
-            window.location = "\\PortoZoca\\produto?botaoAdd=Sim" + "&referencia=" + referencia + "&descricao=" + descricao;
-        }
     </script>
 </body>
 </html>

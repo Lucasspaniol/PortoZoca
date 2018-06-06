@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.portozoca.ws.entidade;
 
 /**
@@ -11,7 +10,7 @@ package br.portozoca.ws.entidade;
  * @author joaovperin
  */
 public class Usuario {
-    
+
     private String apelido;
     private String senha;
 
@@ -30,7 +29,10 @@ public class Usuario {
     public void setSenha(String senha) {
         this.senha = senha;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "Usuario{" + "apelido=" + apelido + ", senha=" + senha + '}';
+    }
 
 }
