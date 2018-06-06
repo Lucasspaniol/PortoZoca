@@ -6,7 +6,9 @@
 package br.portozoca.ws.servlet;
 
 import br.portozoca.ws.entidade.Usuario;
+import br.portozoca.ws.service.LoginService;
 import java.io.IOException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,12 +26,17 @@ public class LoginSv extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession ses = req.getSession(true);
-        Usuario obj = new Usuario();
-        obj.setApelido((String) req.getParameter("user"));
-        obj.setSenha((String) req.getParameter("pass"));
-        ses.setAttribute("userlogado", obj);
-        // Redirect to index
-        resp.sendRedirect("index.jsp");
+
+        Usuario usr = LoginService.autentica(req.getParameter("user"), req.getParameter("pass"));
+        if (usr != null) {
+            ses.setAttribute("userlogado", usr);
+            resp.sendRedirect("index.jsp");
+        } else {
+            // Redirect to login
+            req.setAttribute("error", "Você não é o Adalberto.");
+            RequestDispatcher rd = req.getServletContext().getRequestDispatcher("/login/form.jsp");
+            rd.forward(req, resp);
+        }
     }
 
 }

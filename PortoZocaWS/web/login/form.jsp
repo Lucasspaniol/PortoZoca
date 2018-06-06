@@ -26,6 +26,12 @@
             <input type="submit" value="Login">
             <a href="javascript:alert('se fudeu bocaberta')">Esqueci minha senha :/</a>
         </form>
+
+        <c:if test="${not empty error}">
+           <br/>
+           <br/>
+           <h2>Erro: ${error}.</h2>
+        </c:if>
     </center>
 
     <script type="text/javascript">
