@@ -54,7 +54,11 @@ public class LocalizacaoDAO extends GenericDAO<Localizacao> implements DataAcces
 
     @Override
     public Localizacao selectOne(String filter) throws DBException {
-        return select(filter.concat(" LIMIT 1")).get(0);
+        List<Localizacao> l = select(filter.concat(" LIMIT 1"));
+        if (l.isEmpty()){
+            return null;
+        }
+        return l.get(0);
     }
 
     private List<Localizacao> doSelect(String selectCmd) throws DBException {

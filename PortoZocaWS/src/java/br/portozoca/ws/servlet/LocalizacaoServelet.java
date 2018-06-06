@@ -40,11 +40,19 @@ public class LocalizacaoServelet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(true);
         //Retorna parametros
-        String supId = req.getParameter("loc");
+        int supId;
+        String estrutura = req.getParameter("loc");
         String addDiv = req.getParameter("addDiv");
         String Div = req.getParameter("Div");
         
         if ("Sim".equals(addDiv)) {
+            
+            
+            
+            //locAtual.getEstrutura()
+            
+            
+            
             
             
             
@@ -56,10 +64,28 @@ public class LocalizacaoServelet extends HttpServlet {
             //Lê a localização
             List<Localizacao> lista;
             DataAccessObject<Localizacao> dao = DAOFactory.create(Localizacao.class, conn);
-            if (supId == null || "".equals(supId)){
-                lista = dao.select("WHERE LocalizacaoSuperiorId IS NULL");
-            } else {
+            supId = 0;
+            if (estrutura != null && !estrutura.equals("")) {            
+                String[] divisao = estrutura.split("\\.");
+                // Le as localizações
+                Localizacao x;
+                for (int i=0; i<= divisao.length - 1; i++){
+                    if (supId == 0) {
+                        x = dao.selectOne("WHERE LocalizacaoSuperiorId IS NULL AND Divisao = '" + divisao[i] + "'");
+                    } else {
+                        x = dao.selectOne("WHERE LocalizacaoSuperiorId = '" + supId + "' AND Divisao = '" + divisao[i] + "'");
+                    }
+                    if (x != null) {
+                        supId = x.getLocalizacaoid();   
+                    }
+                }
+            }
+            if (supId != 0){
+                locAtual = dao.selectOne("WHERE LocalizacaoId = " + supId);
                 lista = dao.select("WHERE LocalizacaoSuperiorId = " + supId);
+            } else {
+                locAtual = null;
+                lista = dao.select("WHERE LocalizacaoSuperiorId IS NULL");
             }
             //Carrega atributos
             if (lista.isEmpty()) {
@@ -68,7 +94,9 @@ public class LocalizacaoServelet extends HttpServlet {
                 session.setAttribute("error", " ");
             }
             session.setAttribute("Localizacoes", lista);
-            session.setAttribute("Localizacao", supId);
+            if (locAtual != null){
+                session.setAttribute("Localizacao", estrutura);
+            }
         } catch (DBException e) {
             // Se der exception, põe nos atributos
             session.setAttribute("error", "Erro ao ler localizações");
@@ -77,5 +105,5 @@ public class LocalizacaoServelet extends HttpServlet {
         // Redireciona para o test.jsp
         resp.sendRedirect("Localizacao/localizacao.jsp");
     }
-
+    
 }
