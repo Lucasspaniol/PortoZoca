@@ -44,13 +44,32 @@ public class LocalizacaoDAO extends GenericDAO<Localizacao> implements DataAcces
      */
     @Override
     public final List<Localizacao> select() throws DBException {
+        return doSelect(SQL_SELECT);
+    }
+
+    @Override
+    public List<Localizacao> select(String filter) throws DBException {
+        return doSelect(SQL_SELECT.concat(" ").concat(filter));
+    }
+
+    @Override
+    public Localizacao selectOne(String filter) throws DBException {
+        return select(filter.concat(" LIMIT 1")).get(0);
+    }
+
+    private List<Localizacao> doSelect(String selectCmd) throws DBException {
         List<Localizacao> list = new ArrayList<>();
         try (Statement stm = conn.createStmt()) {
-            try (ResultSet rs = stm.executeQuery(SQL_SELECT)) {
+            try (ResultSet rs = stm.executeQuery(selectCmd)) {
                 while (rs.next()) {
                     Localizacao l = new Localizacao();
                     l.setLocalizacaoid(rs.getInt(1));
-                    
+                    // Se possuir localização superior, lẽ ela e seta no objeto
+                    int localizacaoSuperior = rs.getInt(2);
+                    if (localizacaoSuperior != 0) {
+                        Localizacao superior = selectOne("WHERE LocalizacaoId = '" + localizacaoSuperior + "'");
+                        l.setSup(superior);
+                    }
                     l.setDivision(rs.getString(3));
                     l.setObservacao(rs.getString(4));
                     list.add(l);
