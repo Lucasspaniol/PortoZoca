@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,41 +39,31 @@ public class ProdutoServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //System.out.println("carai " + resp.toString());
-        HttpSession session = req.getSession(true);
-        // Check's if user include product
-        if(req.getParameter("botaoProdut") != null && 
-           req.getParameter("botaoProdut").equalsIgnoreCase("sim")){
-            Produto p = new Produto();
-            try (Conexao cn = ConexaoFactory.transaction()) {
-                p.setProdutoId(0);
+        try (Conexao conn = ConexaoFactory.transaction()) {
+            DataAccessObject<Produto> dao = DAOFactory.create(Produto.class, conn);
+            // Check's if user include product
+            if (req.getParameter("botaoProdut") != null
+                    && req.getParameter("botaoProdut").equalsIgnoreCase("sim")) {
+                Produto p = new Produto();
                 p.setReferencia(req.getParameter("referencia"));
                 p.setDescricao(req.getParameter("descricao"));
-                DataAccessObject<Produto> dao = DAOFactory.create(Produto.class, cn);
                 dao.insert(p);
-                cn.commit();
-                session.setAttribute("gravou_ok", "Gravou o produto com sucesso.");
-            } catch (DBException e) {
-            // Se der exception, põe nos atributos
-                session.setAttribute("error", "Não foi possível incluir o produto.");
-                session.setAttribute("exception", e);
+                conn.commit();
+                req.setAttribute("gravou_ok", "true");
             }
-        }
-        // Le os produtos
-        try (Conexao conn = ConexaoFactory.query()) {
-            DataAccessObject<Produto> dao = DAOFactory.create(Produto.class, conn);
+            // Reads all the products 
             List<Produto> lista = dao.select();
-            // Põe na lista
-            session.setAttribute("Produtos", lista);
+            req.setAttribute("Produtos", lista);
         } catch (DBException e) {
             // Se der exception, põe nos atributos
-            session.setAttribute("error", "Não foi possível encontrar o produto.");
-            session.setAttribute("exception", e);
+            req.setAttribute("error", "Não foi possível acessar tabela de produtos.");
+            req.setAttribute("exception", e);
         }
         // Redireciona para o produto.jsp
-        resp.sendRedirect("produto/produto.jsp");
+        RequestDispatcher rd = req.getServletContext().getRequestDispatcher("/produto/produto.jsp");
+        rd.forward(req, resp);
     }
     
-    
+    private void incluir(String descricao, String referencia){}
 
 }

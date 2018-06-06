@@ -5,6 +5,7 @@
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="m" uri="/WEB-INF/tlds/tags"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -36,9 +37,19 @@
         <input type="text" value="" name="Localizacao" id="Descricao" size="80">
         <input name="submit" type="button" value="Ok" onclick="botaoAdd()">
         
-        <c:if test="${not empty gravou_ok}">NÃO DEU PAU: Gravado com sucesso!</c:if>
-        <c:if test="${not empty error}">DEU PAU: ${error}</c:if>
-        
+        <c:if test="${not empty gravou_ok}">
+            <m:modal message="Gravou produto com sucesso!"
+                     substitle="DEU BOM"
+                     title="Informação!">
+            </m:modal>
+        </c:if>
+        <c:if test="${not empty error}">
+            
+            <m:modal message="${error}"
+                     substitle="DEU RUIM"
+                     title="Informação!">
+            </m:modal>
+        </c:if>
         
         <table style="width: 100%; text-align: center; border-collapse: collapse;">
             <caption style="background-color: #06C; color: white;">

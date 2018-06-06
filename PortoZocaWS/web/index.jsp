@@ -20,12 +20,12 @@
                name="botao-produto" 
                value="Produto" 
                style = "width: 200px" 
-               onclick="window.location.href = '/PortoZoca/produto/produto.jsp'">
+               onclick="window.location.href = '/PortoZoca/produto'">
         <input type="button" 
                name="botao-localizacao" 
                value="Localização" 
                style = "width: 200px" 
-               onclick="window.location.href = '/PortoZoca/localizacao/localizacao.jsp'">
+               onclick="window.location.href = '/PortoZoca/localizacao'">
         <input type="button" 
                name="botao-lpn" 
                value="LPN's" 
