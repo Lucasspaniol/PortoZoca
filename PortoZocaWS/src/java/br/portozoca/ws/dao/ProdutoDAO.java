@@ -24,8 +24,10 @@ public class ProdutoDAO extends GenericDAO<Produto> implements DataAccessObject<
 
     /** Select Statement */
     private static final String SQL_SELECT = "SELECT ProdutoId, Referencia, Descricao, Observacao FROM Produto";
-    private static final String SQL_INSERT = "INSERT INTO Produto (ProdutoId, Referencia, Descricao, Observacao) VALUES (?, ?, ?, ?)";
-    private static final String SQL_UPDATE = "UPDATE Produto SET ProdutoId=?, Referencia=?, Descricao=?, Observacao=? WHERE ProdutoId=?";
+    private static final String SQL_INSERT
+            = "INSERT INTO Produto (ProdutoId, Referencia, Descricao, Observacao) VALUES (?, ?, ?, ?)";
+    private static final String SQL_UPDATE
+            = "UPDATE Produto SET ProdutoId=?, Referencia=?, Descricao=?, Observacao=? WHERE ProdutoId=?";
     private static final String SQL_DELETE = "DELETE FROM Produto WHERE ProdutoId=?";
 
     /**
@@ -63,6 +65,27 @@ public class ProdutoDAO extends GenericDAO<Produto> implements DataAccessObject<
             throw new DBException(e);
         }
         return list;
+    }
+
+    @Override
+    public Produto selectOne(String filter) throws DBException {
+        try (Statement stm = conn.createStmt()) {
+            try (ResultSet rs = stm.executeQuery(SQL_SELECT.concat(filter))) {
+                if (rs.next()) {
+                    Produto p = new Produto();
+                    p.setProdutoId(rs.getInt(1));
+                    p.setReferencia(rs.getString(2));
+                    p.setDescricao(rs.getString(3));
+                    p.setObservacao(rs.getString(4));
+                    return p;
+                }
+            } catch (SQLException e) {
+                throw new DBException(e);
+            }
+        } catch (SQLException e) {
+            throw new DBException(e);
+        }
+        return null;
     }
 
     /**

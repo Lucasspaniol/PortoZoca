@@ -19,7 +19,7 @@
         <%-- Formulário de login --%>
         <form method="POST" action="/PortoZoca/Login">
             <label for="user">User</label>
-            <input type="text" name="user" id="user" placeholder="Usuário"/>
+            <input type="text" name="user" id="user" value="adalberto" placeholder="Usuário"/>
             <label for="pass">Pass</label>
             <input type="password" name="pass" placeholder="Senha"/>
             <br/>

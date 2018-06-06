@@ -51,8 +51,13 @@ public class Produto {
 
     @Override
     public String toString() {
-        return "Produto{" + "produtoId=" + produtoId + ", referencia=" + referencia + ", descricao=" + descricao +
-                ", observacao=" + observacao + '}';
+        return new StringBuilder().
+                append("{").
+                append("produtoId:'").append(getProdutoId()).append("',").
+                append("referencia:'").append(getReferencia()).append("',").
+                append("descricao:'").append(getDescricao()).append("'").
+                append("}").
+                toString();
     }
 
 }
