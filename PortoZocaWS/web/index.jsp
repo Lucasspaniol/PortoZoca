@@ -5,6 +5,7 @@
 --%>
 <%@page import="br.portozoca.ws.database.ConexaoFactory"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,6 +14,13 @@
         <link rel="stylesheet" type="text/css" href="https://unpkg.com/papercss/dist/paper.min.css">
     </head>
     <body>
+
+        <c:if test="${not empty userlogado}">
+            Bem vindo, Srº ${userlogado.apelido}
+        </c:if>
+        <c:if test="${empty userlogado}">
+            <% response.sendRedirect("login/form.jsp"); %>
+        </c:if>
 
         <h1>Menu principal</h1>
         <h2>Este é o menu principal, aqui você pode selecionar a função que você quer que nosso sistema execute, e talvez, essa função será executada!</h2>
