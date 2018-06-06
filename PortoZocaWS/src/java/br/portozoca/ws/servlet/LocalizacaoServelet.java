@@ -20,7 +20,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -104,20 +103,18 @@ public class LocalizacaoServelet extends HttpServlet {
             }
             //Carrega atributos
             if (lista.isEmpty()) {
-                req.setAttribute("error", "Estrutura não possui divisões");
-            } else {
-                req.setAttribute("error", " ");
+                req.setAttribute("msg", "Estrutura não possui divisões");
             }
             req.setAttribute("Localizacoes", lista);
             req.setAttribute("Localizacao", estrutura);
         } catch (DBException e) {
             // Se der exception, põe nos atributos
-            req.setAttribute("error", "Não rolou :/");
+            req.setAttribute("error", "Falha no banco de dados :/");
             req.setAttribute("exception", e);
             locAtual = null;
         }
         // Redireciona para o localizacao.jsp
-        RequestDispatcher rd = req.getServletContext().getRequestDispatcher("/Localizacao/localizacao.jsp");
+        RequestDispatcher rd = req.getServletContext().getRequestDispatcher("/localizacao/localizacao.jsp");
         rd.forward(req, resp);
     }
 
