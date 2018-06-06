@@ -1,10 +1,11 @@
-<%-- 
+<%--
     Document   : localizacao
     Created on : 04/06/2018, 23:26:18
     Author     : Spaniol
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="m" uri="/WEB-INF/tlds/tags"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -14,11 +15,16 @@
             // Define a URL ao clicar no botão "Localização"
             function botaoOk() {
                 var loc = document.getElementById("Localizacao").value;
-                window.location = "/PortoZoca/localizacao?loc="+loc;
+                window.location = "/PortoZoca/localizacao?loc=" + loc;
             }
             function botaoAdd() {
+                var loc = document.getElementById("Localizacao").value;
                 var div = document.getElementById("Divisao").value;
-                window.location = "/PortoZoca/localizacao?addDiv=Sim&Div="+div;
+                window.location = "/PortoZoca/localizacao?addDiv=Sim&Div=" + div + "&loc=" + loc;
+            }
+            function botaoExcluir(id) {
+                var loc = document.getElementById("Localizacao").value;
+                window.location = "/PortoZoca/localizacao?eliDiv=Sim&id=" + id + "&loc=" + loc;
             }
         </script>
         <link rel="stylesheet" type="text/css" href="https://unpkg.com/papercss/dist/paper.min.css">
@@ -33,7 +39,7 @@
         <!--Mensagem-->
         <div id="msg" align="center">
             ${error}
-        </div>            
+        </div>
         <table style="width: 100%; text-align: center; border-collapse: collapse;">
             <caption style="background-color: #06C; color: white;">
                 Divisões da localização
@@ -45,7 +51,7 @@
             <c:forEach items="${Localizacoes}" var="l" varStatus="idl">
                 <tr style="line-height: 130%; background-color: ${leitura.cor}; border-bottom: 1px solid lightgray;">
                     <td>${l.division}</td>
-                    <td><input type="button" value="X" id="excluir" onclick="botaoExcluir('${d.divsao}')"></td>
+                    <td><input type="button" value="X" id="excluir" onclick="botaoExcluir(${l.localizacaoid})"></td>
                 </tr>
             </c:forEach>
         </table>

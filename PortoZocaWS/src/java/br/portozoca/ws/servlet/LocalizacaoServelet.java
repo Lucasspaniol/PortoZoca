@@ -12,6 +12,7 @@ import br.portozoca.ws.database.ConexaoFactory;
 import br.portozoca.ws.database.DBException;
 import br.portozoca.ws.entidade.Localizacao;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -27,9 +28,9 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet("/localizacao")
 public class LocalizacaoServelet extends HttpServlet {
-    
+
     private Localizacao locAtual;
-    
+
     /**
      *
      * @param req
@@ -39,30 +40,41 @@ public class LocalizacaoServelet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        
 
         //Retorna parametros
         int supId;
         String estrutura = req.getParameter("loc");
         String addDiv = req.getParameter("addDiv");
+        String eliDiv = req.getParameter("eliDiv");
         String Div = req.getParameter("Div");
-        
-        if ("Sim".equals(addDiv)) {
-            
-            
-            //locAtual.getEstrutura()
-            
-            
-        }
-        
-        
+
         // Le as localizações
-        try (Conexao conn = ConexaoFactory.query()) {
-            //Lê a localização
-            List<Localizacao> lista;
+        try (Conexao conn = ConexaoFactory.transaction()) {
             DataAccessObject<Localizacao> dao = DAOFactory.create(Localizacao.class, conn);
+
+            // Se deve adicionar uma divisão
+            if ("Sim".equals(addDiv)) {
+                Localizacao l = new Localizacao();
+                l.setDivision(Div);
+                l.setSup(locAtual);
+                dao.insert(l);
+                conn.commit();
+                req.setAttribute("gravou_ok", "true");
+            }
+
+            // Se deve eliminar uma divisão
+            if ("Sim".equals(eliDiv)){
+                Localizacao l = new Localizacao();
+                l.setLocalizacaoid(Integer.parseInt(req.getParameter("id")));
+                dao.delete(l);
+                conn.commit();
+                req.setAttribute("deletou_ok", "true");
+            }
+
+            //Lê a localização
+            List<Localizacao> lista = new ArrayList<>();
             supId = 0;
-            if (estrutura != null && !estrutura.equals("")) {            
+            if (estrutura != null && !estrutura.equals("")) {
                 String[] divisao = estrutura.split("\\.");
                 // Le as localizações
                 Localizacao x;
@@ -73,7 +85,7 @@ public class LocalizacaoServelet extends HttpServlet {
                         x = dao.selectOne("WHERE LocalizacaoSuperiorId = '" + supId + "' AND Divisao = '" + divisao[i] + "'");
                     }
                     if (x != null) {
-                        supId = x.getLocalizacaoid();   
+                        supId = x.getLocalizacaoid();
                     }
                 }
             }
@@ -81,25 +93,32 @@ public class LocalizacaoServelet extends HttpServlet {
                 locAtual = dao.selectOne("WHERE LocalizacaoId = " + supId);
                 lista = dao.select("WHERE LocalizacaoSuperiorId = " + supId);
             } else {
-                locAtual = null;
-                lista = dao.select("WHERE LocalizacaoSuperiorId IS NULL");
+                if (locAtual != null && estrutura != null && !estrutura.equals("")){
+                    if (!lista.isEmpty()){
+                        lista.clear();
+                        locAtual = null;
+                    }
+                } else {
+                    lista = dao.select("WHERE LocalizacaoSuperiorId IS NULL");
+                }
             }
             //Carrega atributos
             if (lista.isEmpty()) {
-                req.setAttribute("error", "Não encontou nenhum localização");
+                req.setAttribute("error", "Estrutura não possui divisões");
             } else {
                 req.setAttribute("error", " ");
             }
             req.setAttribute("Localizacoes", lista);
-            req.setAttribute("Localizacao", estrutura);            
+            req.setAttribute("Localizacao", estrutura);
         } catch (DBException e) {
             // Se der exception, põe nos atributos
-            req.setAttribute("error", "Erro ao ler localizações");
+            req.setAttribute("error", "Não rolou :/");
             req.setAttribute("exception", e);
+            locAtual = null;
         }
         // Redireciona para o localizacao.jsp
         RequestDispatcher rd = req.getServletContext().getRequestDispatcher("/Localizacao/localizacao.jsp");
         rd.forward(req, resp);
     }
-    
+
 }
