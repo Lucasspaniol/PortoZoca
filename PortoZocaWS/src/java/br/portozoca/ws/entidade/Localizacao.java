@@ -45,6 +45,22 @@ public class Localizacao {
         this.sup = sup;
     }
     
+    
+    public String getEstrutura() {
+        String estrutura = null;
+        return explodeEstrutura(estrutura, this);
+    }
+    
+    private String explodeEstrutura(String estrutura, Localizacao loc) {
+        if (loc == null){
+           return "";
+        } else {
+            String tmp = explodeEstrutura(estrutura, loc.getSup());
+           estrutura =  tmp.isEmpty()?loc.getDivision() :  (tmp + "." + loc.getDivision());
+           return estrutura; 
+        }
+    }
+    
     @Override
     public String toString() {
         return "Produto{" + "localizacaoid=" + localizacaoid + ", division=" + division + ", sup=" + sup.getDivision();
