@@ -12,16 +12,13 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Produtos</title>
         <style>
-            .botao {
-                height: 10px;
-                width: 40px;
-            }
+            .botao {height: 10px; width: 40px;}
         </style>
         <link rel="stylesheet" type="text/css" href="https://unpkg.com/papercss/dist/paper.min.css">
     </head>
     <body>
         <%-- Header --%>
-        <t:header name="Produto" ></t:header>
+        <t:header name="Produto" backUrl="index.jsp" ></t:header>
             <h2 align="center"> Produtos</h2>
         <%-- Card com os dados para inclusão/alteração --%>
     <center>

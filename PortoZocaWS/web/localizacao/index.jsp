@@ -15,7 +15,7 @@
     </head>
     <body>
         <%-- Header --%>
-        <t:header name="Localização" ></t:header>
+        <t:header name="Localização" backUrl="index.jsp" ></t:header>
         <%-- Card com os dados para inclusão/alteração --%>
     <center>
         <h2 class="card-title">Localizações</h2>
