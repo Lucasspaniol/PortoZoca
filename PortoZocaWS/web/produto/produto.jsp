@@ -5,38 +5,12 @@
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="m" uri="/WEB-INF/tlds/tags"%>
+<%@taglib prefix="t" uri="/WEB-INF/tlds/tags"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Produtos</title>
-        <script type="text/javascript">
-            // Chama inclusão de produtos
-            function botaoAdd() {
-                var referencia = document.getElementById("Referencia").value;
-                var descricao = document.getElementById("Descricao").value;
-                window.location = "\\PortoZoca\\produto?botaoAdd=Sim" + "&referencia=" + referencia + "&descricao=" + descricao;
-            }
-            // Chama exclusão de produtos
-            function botaoExc(id) {
-                window.location = "\\PortoZoca\\produto?botaoExc=Sim" + "&id=" + id;
-            }
-
-            function botaoAlt(prd) {
-                window.location = "\\PortoZoca\\produto?botaoAlt=Sim" + "&id=" + prd.produtoId;
-            }
-
-            function botaoAltFim(prd) {
-                var referencia = document.getElementById("Referencia").value;
-                var descricao = document.getElementById("Descricao").value;
-                window.location = "\\PortoZoca\\produto?botaoAltFim=Sim" + "&id=" + prd.produtoId + "&referencia=" + referencia + "&descricao=" + descricao;
-            }
-            function recarregaPagina() {
-                window.location = "\\PortoZoca\\produto";
-            }
-
-        </script>
         <style>
             .botao {
                 height: 10px;
@@ -46,7 +20,9 @@
         <link rel="stylesheet" type="text/css" href="https://unpkg.com/papercss/dist/paper.min.css">
     </head>
     <body>
-        <h2 align="center"> Produtos</h2>
+        <%-- Header --%>
+        <t:header name="Produto" ></t:header>
+            <h2 align="center"> Produtos</h2>
         <%-- Card com os dados para inclusão/alteração --%>
     <center>
         <div class="card" style="width: 430px;">
@@ -75,22 +51,22 @@
     </center>
     <%-- Mensagens --%>
     <c:if test="${not empty gravou_ok}">
-        <m:modal message="Gravou produto com sucesso!"
+        <t:modal message="Gravou produto com sucesso!"
                  substitle="DEU BOM"
                  title="Informação!">
-        </m:modal>
+        </t:modal>
     </c:if>
     <c:if test="${not empty deletou_ok}">
-        <m:modal message="Excluiu produto com sucesso!"
+        <t:modal message="Excluiu produto com sucesso!"
                  substitle="DEU BOM"
                  title="Informação!">
-        </m:modal>
+        </t:modal>
     </c:if>
     <c:if test="${not empty error}">
-        <m:modal message="${error}"
+        <t:modal message="${error}"
                  substitle="DEU RUIM"
                  title="Informação!">
-        </m:modal>
+        </t:modal>
         <c:if test="${not empty exception}">
             exc: ${exception}
         </c:if>
@@ -119,6 +95,32 @@
             </tr>
         </c:forEach>
     </table>
+    <%-- Scripts --%>
+    <script type="text/javascript">
+        // Chama inclusão de produtos
+        function botaoAdd() {
+            var referencia = document.getElementById("Referencia").value;
+            var descricao = document.getElementById("Descricao").value;
+            window.location = "\\PortoZoca\\produto?botaoAdd=Sim" + "&referencia=" + referencia + "&descricao=" + descricao;
+        }
+        // Chama exclusão de produtos
+        function botaoExc(id) {
+            window.location = "\\PortoZoca\\produto?botaoExc=Sim" + "&id=" + id;
+        }
+
+        function botaoAlt(prd) {
+            window.location = "\\PortoZoca\\produto?botaoAlt=Sim" + "&id=" + prd.produtoId;
+        }
+
+        function botaoAltFim(prd) {
+            var referencia = document.getElementById("Referencia").value;
+            var descricao = document.getElementById("Descricao").value;
+            window.location = "\\PortoZoca\\produto?botaoAltFim=Sim" + "&id=" + prd.produtoId + "&referencia=" + referencia + "&descricao=" + descricao;
+        }
+        function recarregaPagina() {
+            window.location = "\\PortoZoca\\produto";
+        }
+    </script>
 
 </body>
 </html>

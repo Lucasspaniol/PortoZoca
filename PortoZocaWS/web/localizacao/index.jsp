@@ -5,31 +5,17 @@
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="m" uri="/WEB-INF/tlds/tags"%>
+<%@taglib prefix="t" uri="/WEB-INF/tlds/tags"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Localizações</title>
-        <script type="text/javascript">
-            // Define a URL ao clicar no botão "Localização"
-            function botaoOk() {
-                var loc = document.getElementById("Localizacao").value;
-                window.location = "/PortoZoca/localizacao?loc=" + loc;
-            }
-            function botaoAdd() {
-                var loc = document.getElementById("Localizacao").value;
-                var div = document.getElementById("Divisao").value;
-                window.location = "/PortoZoca/localizacao?addDiv=Sim&Div=" + div + "&loc=" + loc;
-            }
-            function botaoExcluir(id) {
-                var loc = document.getElementById("Localizacao").value;
-                window.location = "/PortoZoca/localizacao?eliDiv=Sim&id=" + id + "&loc=" + loc;
-            }
-        </script>
         <link rel="stylesheet" type="text/css" href="https://unpkg.com/papercss/dist/paper.min.css">
     </head>
     <body>
+        <%-- Header --%>
+        <t:header name="Localização" ></t:header>
         <%-- Card com os dados para inclusão/alteração --%>
     <center>
         <h2 class="card-title">Localizações</h2>
@@ -80,5 +66,22 @@
         </c:forEach>
     </table>
     <br/>
+    <%-- Scripts --%>
+    <script type="text/javascript">
+        // Define a URL ao clicar no botão "Localização"
+        function botaoOk() {
+            var loc = document.getElementById("Localizacao").value;
+            window.location = "/PortoZoca/localizacao?loc=" + loc;
+        }
+        function botaoAdd() {
+            var loc = document.getElementById("Localizacao").value;
+            var div = document.getElementById("Divisao").value;
+            window.location = "/PortoZoca/localizacao?addDiv=Sim&Div=" + div + "&loc=" + loc;
+        }
+        function botaoExcluir(id) {
+            var loc = document.getElementById("Localizacao").value;
+            window.location = "/PortoZoca/localizacao?eliDiv=Sim&id=" + id + "&loc=" + loc;
+        }
+    </script>
 </body>
 </html>
