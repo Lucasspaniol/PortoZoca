@@ -57,12 +57,23 @@ public class ProdutoServlet extends HttpServlet {
                 conn.commit();
                 req.setAttribute("deletou_ok", "true");
             }
-            // Consulta
-            if (req.getParameter("botaoCon") != null) {
+            // Alteração
+            if (req.getParameter("botaoAlt") != null) {
                 System.out.println("oi to consultando");
                 String pId = req.getParameter("id");
-                Produto prd = dao.selectOne("WHERE ProdutoId = '" + pId + "'");
+                Produto prd = dao.selectOne(" WHERE ProdutoId ='" + pId + "'");
                 req.setAttribute("prod", prd);
+                req.setAttribute("funcaoAlt", true);
+            }
+            // Alteração fim
+            if (req.getParameter("botaoAltFim") != null) {
+                Produto p = new Produto();
+                p.setProdutoId(Integer.parseInt(req.getParameter("id")));
+                p.setReferencia(req.getParameter("referencia"));
+                p.setDescricao(req.getParameter("descricao"));
+                dao.update(p);
+                conn.commit();
+                req.setAttribute("gravou_ok", "true");
             }
             // Reads all the products
             List<Produto> lista = dao.select();

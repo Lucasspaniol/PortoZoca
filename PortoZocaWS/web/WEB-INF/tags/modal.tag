@@ -21,6 +21,6 @@
         <h4 class="modal-title">${title}</h4>
         <h5 class="modal-subtitle">${substitle}</h5>
         <p class="modal-text">${message} :D</p>
-        <label for="modal-1" class="paper-btn">Nice!</label>
+        <button for="modal-1" class="paper-btn" autofocus="autofocus">Nice!</button>
     </div>
 </div>

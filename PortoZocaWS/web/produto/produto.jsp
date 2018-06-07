@@ -23,8 +23,17 @@
                 window.location = "\\PortoZoca\\produto?botaoExc=Sim" + "&id=" + id;
             }
 
-            function botaoCon(prd){
-                window.location = "\\PortoZoca\\produto?botaoCon=Sim" + "&id=" + prd.produtoId;
+            function botaoAlt(prd) {
+                window.location = "\\PortoZoca\\produto?botaoAlt=Sim" + "&id=" + prd.produtoId;
+            }
+
+            function botaoAltFim(prd) {
+                var referencia = document.getElementById("Referencia").value;
+                var descricao = document.getElementById("Descricao").value;
+                window.location = "\\PortoZoca\\produto?botaoAltFim=Sim" + "&id=" + prd.produtoId + "&referencia=" + referencia + "&descricao=" + descricao;
+            }
+            function recarregaPagina() {
+                window.location = "\\PortoZoca\\produto";
             }
 
         </script>
@@ -38,21 +47,33 @@
     </head>
     <body>
         <h2 align="center"> Produtos</h2>
-
+        <%-- Card com os dados para inclusão/alteração --%>
     <center>
         <div class="card" style="width: 430px;">
             <div class="card-body">
-                <h4 class="card-title">Inclusão</h4>
+                <c:if test='${!funcaoAlt}'>
+                    <h4 class="card-title">Inclusão</h4>
+                </c:if>
+                <c:if test='${funcaoAlt}'>
+                    <h4 class="card-title">Alteração</h4>
+                </c:if>
                 <div>Referência</div>
-                <input type="text" value="${prod.referencia}" name="referencia" id="Referencia" style="width: 75%;">
+                <input type="text" value="${prod.referencia}" name="referencia" id="Referencia" style="width: 75%;" autofocus="autofocus">
                 <br>
                 <div>Descrição</div>
                 <input type="text" value="${prod.descricao}" name="descricao" id="Descricao"  style="width: 75%;">
-                <input name="submit" type="button" value="Ok" onclick="botaoAdd()">
+                <br/>
+                <c:if test='${!funcaoAlt}'>
+                    <input name="submit" type="button" value="Ok" onclick="botaoAdd()">
+                </c:if>
+                <c:if test='${funcaoAlt}'>
+                    <input name="submit" type="button" value="Cancelar" onclick="recarregaPagina()">
+                    <input name="submit" type="button" value="Ok" onclick="botaoAltFim(${prod})">
+                </c:if>
             </div>
         </div>
     </center>
-
+    <%-- Mensagens --%>
     <c:if test="${not empty gravou_ok}">
         <m:modal message="Gravou produto com sucesso!"
                  substitle="DEU BOM"
@@ -66,11 +87,13 @@
         </m:modal>
     </c:if>
     <c:if test="${not empty error}">
-
         <m:modal message="${error}"
                  substitle="DEU RUIM"
                  title="Informação!">
         </m:modal>
+        <c:if test="${not empty exception}">
+            exc: ${exception}
+        </c:if>
     </c:if>
     <br/><br/>
     <table style="width: 100%; text-align: center; border-collapse: collapse;">
@@ -81,7 +104,7 @@
             <th>ID</th>
             <th>Referência</th>
             <th>Descrição</th>
-            <th>Excluir</th>
+            <th>Funções</th>
         </tr>
         <c:forEach items="${Produtos}" var="p" varStatus="idl">
             <tr style="line-height: 130%; background-color: #AC6; border-bottom: 1px solid lightgray;">
@@ -90,7 +113,7 @@
                 <td>${p.descricao}</td>
                 <%-- Ações --%>
                 <td>
-                    <input type="button" value="C" id="consultar" onclick="botaoCon(${p})">
+                    <input type="button" value="A" id="consultar" onclick="botaoAlt(${p})">
                     <input type="button" value="X" id="excluir" onclick="botaoExc(${p.produtoId})">
                 </td>
             </tr>

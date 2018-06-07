@@ -46,7 +46,7 @@
                name="botao-lpn"
                value="LPN's"
                style = "width: 200px"
-               onclick="window.location.href = '/PortoZoca/lpn/index.jsp'">
+               onclick="alert('NÃO FUNCIONA!')">
 
         <!-- Abre uma conexão e  o Driver JDBC -->
         <%

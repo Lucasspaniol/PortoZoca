@@ -55,7 +55,7 @@ public class LocalizacaoDAO extends GenericDAO<Localizacao> implements DataAcces
     @Override
     public Localizacao selectOne(String filter) throws DBException {
         List<Localizacao> l = select(filter.concat(" LIMIT 1"));
-        if (l.isEmpty()){
+        if (l.isEmpty()) {
             return null;
         }
         return l.get(0);
@@ -99,7 +99,13 @@ public class LocalizacaoDAO extends GenericDAO<Localizacao> implements DataAcces
         try (PreparedStatement pstm = conn.prepareStmt(SQL_INSERT)) {
             int i = 1;
             pstm.setInt(i++, bean.getLocalizacaoid());
-            pstm.setInt(i++, bean.getSup().getLocalizacaoid());
+            Localizacao sup = bean.getSup();
+            // If it have a superior location
+            if (sup != null) {
+                pstm.setInt(i++, sup.getLocalizacaoid());
+            } else {
+                pstm.setNull(i++, java.sql.Types.INTEGER);
+            }
             pstm.setString(i++, bean.getDivision());
             pstm.setString(i++, bean.getObservacao());
             int modifiedRows = pstm.executeUpdate();

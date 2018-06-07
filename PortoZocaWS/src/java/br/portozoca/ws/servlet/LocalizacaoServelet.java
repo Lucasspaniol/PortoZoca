@@ -43,6 +43,9 @@ public class LocalizacaoServelet extends HttpServlet {
         //Retorna parametros
         int supId;
         String estrutura = req.getParameter("loc");
+        if (estrutura == null || estrutura.isEmpty()) {
+            locAtual = null;
+        }
         String addDiv = req.getParameter("addDiv");
         String eliDiv = req.getParameter("eliDiv");
         String Div = req.getParameter("Div");
@@ -62,7 +65,7 @@ public class LocalizacaoServelet extends HttpServlet {
             }
 
             // Se deve eliminar uma divisão
-            if ("Sim".equals(eliDiv)){
+            if ("Sim".equals(eliDiv)) {
                 Localizacao l = new Localizacao();
                 l.setLocalizacaoid(Integer.parseInt(req.getParameter("id")));
                 dao.delete(l);
@@ -77,7 +80,7 @@ public class LocalizacaoServelet extends HttpServlet {
                 String[] divisao = estrutura.split("\\.");
                 // Le as localizações
                 Localizacao x;
-                for (int i=0; i<= divisao.length - 1; i++){
+                for (int i = 0; i <= divisao.length - 1; i++) {
                     if (supId == 0) {
                         x = dao.selectOne("WHERE LocalizacaoSuperiorId IS NULL AND Divisao = '" + divisao[i] + "'");
                     } else {
@@ -85,18 +88,18 @@ public class LocalizacaoServelet extends HttpServlet {
                     }
                     if (x != null) {
                         supId = x.getLocalizacaoid();
+                    } else {
+                        req.setAttribute("error", "Estrutura não encontrada :/");
+                        break;
                     }
                 }
             }
-            if (supId != 0){
+            if (supId != 0) {
                 locAtual = dao.selectOne("WHERE LocalizacaoId = " + supId);
                 lista = dao.select("WHERE LocalizacaoSuperiorId = " + supId);
             } else {
-                if (locAtual != null && estrutura != null && !estrutura.equals("")){
-                    if (!lista.isEmpty()){
-                        lista.clear();
-                        locAtual = null;
-                    }
+                if (locAtual != null && estrutura != null && !estrutura.isEmpty()) {
+                    lista.clear();
                 } else {
                     lista = dao.select("WHERE LocalizacaoSuperiorId IS NULL");
                 }
@@ -114,7 +117,7 @@ public class LocalizacaoServelet extends HttpServlet {
             locAtual = null;
         }
         // Redireciona para o localizacao.jsp
-        RequestDispatcher rd = req.getServletContext().getRequestDispatcher("/localizacao/localizacao.jsp");
+        RequestDispatcher rd = req.getServletContext().getRequestDispatcher("/localizacao/index.jsp");
         rd.forward(req, resp);
     }
 
