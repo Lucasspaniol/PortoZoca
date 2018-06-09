@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Spaniol
  */
 @WebServlet("/localizacao")
-public class LocalizacaoServelet extends HttpServlet {
+public class LocalizacaoServlet extends HttpServlet {
 
     private Localizacao locAtual;
 

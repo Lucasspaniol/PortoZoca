@@ -33,7 +33,7 @@
                    name="botao-lpn"
                    value="LPN's"
                    style = "width: 200px"
-                   onclick="alert('NÃO FUNCIONA!')">
+                   onclick="window.location.href = '/PortoZoca/lpn'">
             <!-- Abre uma conexão e  o Driver JDBC -->
         <%
             ConexaoFactory.start();
