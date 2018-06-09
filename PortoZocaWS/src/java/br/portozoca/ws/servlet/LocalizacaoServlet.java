@@ -48,6 +48,8 @@ public class LocalizacaoServlet extends HttpServlet {
         }
         String addDiv = req.getParameter("addDiv");
         String eliDiv = req.getParameter("eliDiv");
+        String entrar = req.getParameter("entrar");
+        String voltar = req.getParameter("voltar");
         String Div = req.getParameter("Div");
 
         // Le as localizações
@@ -55,7 +57,7 @@ public class LocalizacaoServlet extends HttpServlet {
             DataAccessObject<Localizacao> dao = DAOFactory.create(Localizacao.class, conn);
 
             // Se deve adicionar uma divisão
-            if ("Sim".equals(addDiv)) {
+            if (addDiv != null && addDiv.equals("Sim")) {
                 Localizacao l = new Localizacao();
                 l.setDivision(Div);
                 l.setSup(locAtual);
@@ -65,13 +67,27 @@ public class LocalizacaoServlet extends HttpServlet {
             }
 
             // Se deve eliminar uma divisão
-            if ("Sim".equals(eliDiv)) {
+            if (eliDiv != null && eliDiv.equals("Sim")) {
                 Localizacao l = new Localizacao();
                 l.setLocalizacaoid(Integer.parseInt(req.getParameter("id")));
                 dao.delete(l);
                 conn.commit();
                 req.setAttribute("deletou_ok", "true");
             }
+            
+            // Se deve entrar na estrutura
+            if (entrar != null && entrar.equals("Sim")) {
+                Localizacao l = dao.selectOne("WHERE LocalizacaoId = " + Integer.parseInt(req.getParameter("id")));
+                estrutura = l.getEstrutura();
+            }
+            
+            // Se deve entrar na estrutura anterior
+            if (voltar != null && voltar.equals("Sim")) {
+                if (locAtual != null){
+                   estrutura = locAtual.getEstrutura(); 
+                }
+            }
+            
 
             //Lê a localização
             List<Localizacao> lista = new ArrayList<>();
@@ -110,6 +126,11 @@ public class LocalizacaoServlet extends HttpServlet {
             }
             req.setAttribute("Localizacoes", lista);
             req.setAttribute("Localizacao", estrutura);
+            if (locAtual != null) {
+                req.setAttribute("exbVoltar", true);
+            } else {
+                req.setAttribute("exbVoltar", false);
+            }
         } catch (DBException e) {
             // Se der exception, põe nos atributos
             req.setAttribute("error", "Falha no banco de dados :/");
