@@ -12,29 +12,6 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Localizações</title>
         <link rel="stylesheet" type="text/css" href="https://unpkg.com/papercss/dist/paper.min.css">
-        <%-- Scripts --%>
-        <script type="text/javascript">
-            // Define a URL ao clicar no botão "Localização"
-            function botaoOk() {
-                var loc = document.getElementById("Localizacao").value;
-                window.location = "/PortoZoca/localizacao?loc=" + loc;
-            }
-            function botaoAdd() {
-                var loc = document.getElementById("Localizacao").value;
-                var div = document.getElementById("Divisao").value;
-                window.location = "/PortoZoca/localizacao?addDiv=Sim&Div=" + div + "&loc=" + loc;
-            }
-            function botaoExcluir(id) {
-                var loc = document.getElementById("Localizacao").value;
-                window.location = "/PortoZoca/localizacao?eliDiv=Sim&id=" + id + "&loc=" + loc;
-            }
-            function botaoEntrar(id) {
-                window.location = "/PortoZoca/localizacao?entrar=Sim&id=" + id;
-            }
-            function botaoVoltar() {
-                window.location = "/PortoZoca/localizacao?voltar=Sim";
-            }
-        </script>
     </head>
     <body>
         <%-- Header --%>
@@ -90,12 +67,59 @@
             <tr style="line-height: 130%; background-color: ${leitura.cor}; border-bottom: 1px solid lightgray;">
                 <td>${l.division}</td>
                 <td>
-                    <input type="button" value="X" id="excluir" onclick="botaoExcluir(${l.localizacaoid})">
-                    <input type="button" value="->" id="in" onclick="botaoEntrar(${l.localizacaoid})">
+                    <input type="button" title="Eliminar divisão" value="X" id="excluir" onclick="botaoExcluir(${l.localizacaoid})">
+                    <input type="button" title="Acessas estrutura da divisão" value="->" id="entrar" onclick="botaoEntrar(${l.localizacaoid})">
+                    <input type="button" title="Editar observações" value="..." id="obs" onclick="accObs(${l.localizacaoid})">
                 </td>
             </tr>
         </c:forEach>
     </table>
     <br/>
+    <%-- Modal para aceitar observações --%>
+    <c:if test="${aceitaObs}">
+        <input class="modal-state" id="modal-obs" type="checkbox" checked </div>
+        <div class="modal">
+            <label class="modal-bg" for="modal-obs"></label>
+            <div class="modal-body" style="width:70%;height: 50%;">
+                <label class="btn-close" for="modal-obs">X</label>
+                <h4 class="modal-title">Localização: ${estruturaId}</h4>
+                <h5 class="modal-subtitle">Observação</h5>
+                <textarea rows="4" cols="50" name="Obs" id="Obs" style="width: 100%;height: 50%">${ObsDiv}</textarea>
+                <label for="modal-obs" class="paper-btn" autofocus="autofocus" onclick="okObs(${IdDiv})">Ok</button>
+            </div>
+        </div>
+    </c:if>    
+    <%-- Scripts --%>
+    <script type="text/javascript">
+        // Define a URL ao clicar no botão "Localização"
+        function botaoOk() {
+            var loc = document.getElementById("Localizacao").value;
+            window.location = "/PortoZoca/localizacao?loc=" + loc;
+        }
+        function botaoAdd() {
+            var loc = document.getElementById("Localizacao").value;
+            var div = document.getElementById("Divisao").value;
+            window.location = "/PortoZoca/localizacao?addDiv=Sim&Div=" + div + "&loc=" + loc;
+        }
+        function botaoExcluir(id) {
+            var loc = document.getElementById("Localizacao").value;
+            window.location = "/PortoZoca/localizacao?eliDiv=Sim&id=" + id + "&loc=" + loc;
+        }
+        function botaoEntrar(id) {
+            window.location = "/PortoZoca/localizacao?entrar=Sim&id=" + id;
+        }
+        function botaoVoltar() {
+            window.location = "/PortoZoca/localizacao?voltar=Sim";
+        }
+        function accObs(id) {
+            var loc = document.getElementById("Localizacao").value;
+            window.location = "/PortoZoca/localizacao?accObs=Sim&id=" + id + "&loc=" + loc;
+        }
+        function okObs(id) {
+            var loc = document.getElementById("Localizacao").value;
+            var obs = document.getElementById("Obs").value;
+            window.location = "/PortoZoca/localizacao?regravaObs=Sim&id=" + id + "&obs=" + obs + "&loc=" + loc;
+        }
+    </script>
 </body>
 </html>

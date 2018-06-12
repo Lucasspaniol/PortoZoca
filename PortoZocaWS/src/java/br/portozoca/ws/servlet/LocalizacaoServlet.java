@@ -50,7 +50,10 @@ public class LocalizacaoServlet extends HttpServlet {
         String eliDiv = req.getParameter("eliDiv");
         String entrar = req.getParameter("entrar");
         String voltar = req.getParameter("voltar");
-        String Div = req.getParameter("Div");
+        String div = req.getParameter("Div");
+        String accObs = req.getParameter("accObs");
+        String regravaObs = req.getParameter("regravaObs");
+        String obs = req.getParameter("obs");
 
         // Le as localizações
         try (Conexao conn = ConexaoFactory.transaction()) {
@@ -59,7 +62,7 @@ public class LocalizacaoServlet extends HttpServlet {
             // Se deve adicionar uma divisão
             if (addDiv != null && addDiv.equals("Sim")) {
                 Localizacao l = new Localizacao();
-                l.setDivision(Div);
+                l.setDivision(div);
                 l.setSup(locAtual);
                 dao.insert(l);
                 conn.commit();
@@ -75,6 +78,15 @@ public class LocalizacaoServlet extends HttpServlet {
                 req.setAttribute("deletou_ok", "true");
             }
             
+             if (regravaObs != null && regravaObs.equals("Sim")){
+                if (obs != null) {
+                    Localizacao l = dao.selectOne("WHERE LocalizacaoId = " + Integer.parseInt(req.getParameter("id")));
+                    l.setObservacao(obs);
+                    dao.update(l);
+                    conn.commit();
+                }
+            }
+                    
             // Se deve entrar na estrutura
             if (entrar != null && entrar.equals("Sim")) {
                 Localizacao l = dao.selectOne("WHERE LocalizacaoId = " + Integer.parseInt(req.getParameter("id")));
@@ -87,8 +99,15 @@ public class LocalizacaoServlet extends HttpServlet {
                    estrutura = locAtual.getEstrutura(); 
                 }
             }
+            // Se deve aceitar a observação da divisão
+            if (accObs != null && accObs.equals("Sim")) {
+                Localizacao l = dao.selectOne("WHERE LocalizacaoId = " + Integer.parseInt(req.getParameter("id")));
+                req.setAttribute("estruturaId", l.getEstrutura());
+                req.setAttribute("aceitaObs", true);
+                req.setAttribute("IdDiv", l.getLocalizacaoid());
+                req.setAttribute("ObsDiv", l.getObservacao());
+            }
             
-
             //Lê a localização
             List<Localizacao> lista = new ArrayList<>();
             supId = 0;

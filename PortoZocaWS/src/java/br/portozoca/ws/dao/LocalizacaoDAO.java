@@ -24,7 +24,7 @@ public class LocalizacaoDAO extends GenericDAO<Localizacao> implements DataAcces
     /** Select Statement */
     private static final String SQL_SELECT = "SELECT LocalizacaoId, LocalizacaoSuperiorId, Divisao, Observacao FROM Localizacao";
     private static final String SQL_INSERT = "INSERT INTO Localizacao (LocalizacaoId, LocalizacaoSuperiorId, Divisao, Observacao) VALUES (?, ?, ?, ?)";
-    private static final String SQL_UPDATE = "UPDATE Localizacao SET LocalizacaoId=?, LocalizacaoSuperiorId=?, Divisao=?, Observacao=? WHERE ProdutoId=?";
+    private static final String SQL_UPDATE = "UPDATE Localizacao SET LocalizacaoId=?, LocalizacaoSuperiorId=?, Divisao=?, Observacao=? WHERE LocalizacaoId=?";
     private static final String SQL_DELETE = "DELETE FROM Localizacao WHERE LocalizacaoId=?";
 
     /**
@@ -133,7 +133,13 @@ public class LocalizacaoDAO extends GenericDAO<Localizacao> implements DataAcces
         try (PreparedStatement pstm = conn.prepareStmt(SQL_UPDATE)) {
             int i = 1;
             pstm.setInt(i++, bean.getLocalizacaoid());
-            pstm.setInt(i++, bean.getSup().getLocalizacaoid());
+            Localizacao sup = bean.getSup();
+            // If it have a superior location
+            if (sup != null) {
+                pstm.setInt(i++, sup.getLocalizacaoid());
+            } else {
+                pstm.setNull(i++, java.sql.Types.INTEGER);
+            }            
             pstm.setString(i++, bean.getDivision());
             pstm.setString(i++, bean.getObservacao());
             // Primary Key
