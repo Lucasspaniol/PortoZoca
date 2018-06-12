@@ -77,26 +77,24 @@ public class LocalizacaoServlet extends HttpServlet {
                 conn.commit();
                 req.setAttribute("deletou_ok", "true");
             }
-            
+
              if (regravaObs != null && regravaObs.equals("Sim")){
-                if (obs != null) {
-                    Localizacao l = dao.selectOne("WHERE LocalizacaoId = " + Integer.parseInt(req.getParameter("id")));
-                    l.setObservacao(obs);
-                    dao.update(l);
-                    conn.commit();
-                }
+                Localizacao l = dao.selectOne("WHERE LocalizacaoId = " + Integer.parseInt(req.getParameter("id")));
+                l.setObservacao(obs);
+                dao.update(l);
+                conn.commit();
             }
-                    
+
             // Se deve entrar na estrutura
             if (entrar != null && entrar.equals("Sim")) {
                 Localizacao l = dao.selectOne("WHERE LocalizacaoId = " + Integer.parseInt(req.getParameter("id")));
                 estrutura = l.getEstrutura();
             }
-            
+
             // Se deve entrar na estrutura anterior
             if (voltar != null && voltar.equals("Sim")) {
                 if (locAtual != null){
-                   estrutura = locAtual.getEstrutura(); 
+                   estrutura = locAtual.getEstrutura();
                 }
             }
             // Se deve aceitar a observação da divisão
@@ -107,7 +105,7 @@ public class LocalizacaoServlet extends HttpServlet {
                 req.setAttribute("IdDiv", l.getLocalizacaoid());
                 req.setAttribute("ObsDiv", l.getObservacao());
             }
-            
+
             //Lê a localização
             List<Localizacao> lista = new ArrayList<>();
             supId = 0;
