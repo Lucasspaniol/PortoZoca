@@ -70,6 +70,7 @@
                     <input type="button" title="Eliminar divisão" value="X" id="excluir" onclick="botaoExcluir(${l.localizacaoid})">
                     <input type="button" title="Acessas estrutura da divisão" value="->" id="entrar" onclick="botaoEntrar(${l.localizacaoid})">
                     <input type="button" title="Editar observações" value="..." id="obs" onclick="accObs(${l.localizacaoid})">
+                    <input type="button" title="Produto armazenado" value="?" id="produto" onclick="">
                 </td>
             </tr>
         </c:forEach>
