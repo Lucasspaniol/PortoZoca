@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Produtos</title>
+        <title>Lpn</title>
         <style>
             .botao {height: 10px; width: 40px;}
         </style>
