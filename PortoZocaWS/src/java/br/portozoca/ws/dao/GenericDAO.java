@@ -168,9 +168,4 @@ public class GenericDAO<B> implements DataAccessObject<B> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public Localizacao loadLocalizacao(String parameter) throws DBException  {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
 }

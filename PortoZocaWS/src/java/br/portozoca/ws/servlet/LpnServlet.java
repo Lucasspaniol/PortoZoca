@@ -7,6 +7,7 @@ package br.portozoca.ws.servlet;
 
 import br.portozoca.ws.dao.DAOFactory;
 import br.portozoca.ws.dao.DataAccessObject;
+import br.portozoca.ws.dao.LocalizacaoDAO;
 import br.portozoca.ws.database.Conexao;
 import br.portozoca.ws.database.ConexaoFactory;
 import br.portozoca.ws.database.DBException;
@@ -41,12 +42,12 @@ public class LpnServlet extends HttpServlet {
         try (Conexao conn = ConexaoFactory.transaction()) {
             DataAccessObject<Lpn> daoLpn = DAOFactory.create(Lpn.class, conn);
             DataAccessObject<Produto> daoProduto = DAOFactory.create(Produto.class, conn);
-            DataAccessObject<Localizacao> daoLocalizacao = DAOFactory.create(Localizacao.class, conn);
+            LocalizacaoDAO daoLocalizacao = DAOFactory.createDao(LocalizacaoDAO.class, conn);
             // Check's if user include product
             if (req.getParameter("botaoAdd") != null) {
                 Lpn lpn = new Lpn();
                 lpn.setProduto(daoProduto.selectOne(" WHERE Referencia ='" + req.getParameter("referencia") + "'"));
-                lpn.setLocalizacao(daoLpn.loadLocalizacao(req.getParameter("localizacao")));
+                lpn.setLocalizacao(daoLocalizacao.loadLocalizacao(req.getParameter("localizacao")));
                 lpn.setQuantidade(1f);
                 daoLpn.insert(lpn);
                 conn.commit();
@@ -58,7 +59,7 @@ public class LpnServlet extends HttpServlet {
             req.setAttribute("Lpns", lista);
         } catch (DBException e) {
             // Se der exception, põe nos atributos
-            req.setAttribute("error", "Não foi possível acessar tabela de produtos.");
+            req.setAttribute("error", "Não foi possível acessar tabela.");
             req.setAttribute("exception", e);
         }
         // Redireciona para o produto.jsp

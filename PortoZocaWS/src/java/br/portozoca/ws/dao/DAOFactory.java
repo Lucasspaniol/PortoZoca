@@ -14,6 +14,14 @@ import br.portozoca.ws.database.Conexao;
  */
 public final class DAOFactory {
 
+    public static final <D> D createDao(Class<D> dao, Conexao conn) {
+        try {
+            return dao.getConstructor(Conexao.class).newInstance(conn);
+        } catch (IllegalArgumentException | SecurityException | ReflectiveOperationException e) {
+            throw new RuntimeException("Tu fez merda, programador de bosta.");
+        }
+    }
+
     /**
      * Instantiate a new Data Access Object for the bean class
      *

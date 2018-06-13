@@ -72,6 +72,4 @@ public interface DataAccessObject<B> {
      */
     public boolean delete(B bean) throws DBException;
 
-    public Localizacao loadLocalizacao(String parameter) throws DBException ;
-
 }

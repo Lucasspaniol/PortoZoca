@@ -44,12 +44,12 @@ public class LocalizacaoDAO extends GenericDAO<Localizacao> implements DataAcces
      */
     @Override
     public final List<Localizacao> select() throws DBException {
-        return doSelect(SQL_SELECT);
+        return doSelect(SQL_SELECT, null);
     }
 
     @Override
     public List<Localizacao> select(String filter) throws DBException {
-        return doSelect(SQL_SELECT.concat(" ").concat(filter));
+        return doSelect(SQL_SELECT.concat(" ").concat(filter), null);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class LocalizacaoDAO extends GenericDAO<Localizacao> implements DataAcces
         return l.get(0);
     }
 
-    private List<Localizacao> doSelect(String selectCmd) throws DBException {
+    private List<Localizacao> doSelect(String selectCmd, String alias) throws DBException {
         List<Localizacao> list = new ArrayList<>();
         try (Statement stm = conn.createStmt()) {
             try (ResultSet rs = stm.executeQuery(selectCmd)) {
@@ -71,7 +71,11 @@ public class LocalizacaoDAO extends GenericDAO<Localizacao> implements DataAcces
                     // Se possuir localização superior, lẽ ela e seta no objeto
                     int localizacaoSuperior = rs.getInt(2);
                     if (localizacaoSuperior != 0) {
-                        Localizacao superior = selectOne("WHERE LocalizacaoId = '" + localizacaoSuperior + "'");
+                        String myAlias = "";
+                        if(alias != null){
+                            myAlias = "."+alias;
+                        }
+                        Localizacao superior = selectOne(String.format("WHERE %sLocalizacaoId = '%d'", myAlias, localizacaoSuperior));
                         l.setSup(superior);
                     }
                     l.setDivision(rs.getString(3));
@@ -172,23 +176,24 @@ public class LocalizacaoDAO extends GenericDAO<Localizacao> implements DataAcces
     }
 
     /**
-     *
+     * Load the localization
+     * 
      * @param localizacao
-     * @return
+     * @return Localizacao
      * @throws DBException
      */
-    @Override
     public Localizacao loadLocalizacao(String localizacao) throws DBException {
         String[] divisao = localizacao.split("\\.");
         
-        List<Localizacao> lista = this.select(" AS L "
+        List<Localizacao> lista = this.doSelect(" AS L "
                 + "INNER JOIN Localizacao LS "
                 + "ON (L.LocalizacaoSuperiorId = LS.LocalizacaoId) "
                 + "WHERE LS.Divisao='"
                 + divisao[divisao.length - 2]
                 + "' AND L.Divisao='"
                 + divisao[divisao.length - 1]
-                + "';");
+                + "';",
+                "L");
         
         String localizacaoPai = "";
         for(int x = 0; x < (divisao.length - 1); x++){
@@ -205,19 +210,21 @@ public class LocalizacaoDAO extends GenericDAO<Localizacao> implements DataAcces
         return null;
     }
     
-    public boolean validaSuperiores(String localizacao, int localizacaoAtual) throws DBException {
+    private boolean validaSuperiores(String localizacao, int localizacaoAtual) throws DBException {
         String[] divisao = localizacao.split("\\.");
         if(divisao.length <= 1){
             return true;
         }
-        List<Localizacao> lista = this.select(" AS L "
+        
+        List<Localizacao> lista = this.doSelect(" AS L "
                 + "INNER JOIN Localizacao LS "
                 + "ON (L.LocalizacaoSuperiorId = LS.LocalizacaoId) "
                 + "WHERE LS.Divisao='"
                 + divisao[divisao.length - 2]
                 + "' AND L.Divisao='"
                 + divisao[divisao.length - 1]
-                + "' AND L.LocalizacaoId ='+"+ localizacaoAtual +"';");
+                + "' AND L.LocalizacaoId ='+"+ localizacaoAtual +"';",
+                "L");
         
         String localizacaoPai = "";
         for(int x = 0; x < (divisao.length - 1); x++){
