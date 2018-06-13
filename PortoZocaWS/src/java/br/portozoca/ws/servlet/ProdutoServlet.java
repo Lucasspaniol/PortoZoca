@@ -73,6 +73,20 @@ public class ProdutoServlet extends HttpServlet {
                 conn.commit();
                 req.setAttribute("gravou_ok", "true");
             }
+            // Aceita Obs
+            if (req.getParameter("accObs") != null) {
+                Produto p = dao.selectOne(" WHERE ProdutoId ='" + req.getParameter("id") + "'");
+                req.setAttribute("aceitaObs", true);
+                req.setAttribute("prod", p);
+            }
+            // Grava observação
+            if (req.getParameter("gravaObs") != null) {
+                Produto p = dao.selectOne(" WHERE ProdutoId ='" + req.getParameter("id") + "'");
+                p.setObservacao(req.getParameter("obs"));
+                dao.update(p);
+                conn.commit();
+                req.setAttribute("aceitaObs", false);
+            }
             // Reads all the products
             List<Produto> lista = dao.select();
             req.setAttribute("Produtos", lista);

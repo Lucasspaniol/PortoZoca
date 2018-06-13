@@ -85,7 +85,7 @@
                 <h4 class="modal-title">Localização: ${estruturaId}</h4>
                 <h5 class="modal-subtitle">Observação</h5>
                 <textarea rows="4" cols="50" name="Obs" id="Obs" style="width: 100%;height: 50%">${ObsDiv}</textarea>
-                <label for="modal-obs" class="paper-btn" autofocus="autofocus" onclick="okObs(${IdDiv})">Ok</button>
+                <button for="modal-obs" class="paper-btn" autofocus="autofocus" onclick="okObs(${IdDiv})">Ok</button>
             </div>
         </div>
     </c:if>    

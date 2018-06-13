@@ -105,7 +105,6 @@ public class LocalizacaoServlet extends HttpServlet {
                 req.setAttribute("IdDiv", l.getLocalizacaoid());
                 req.setAttribute("ObsDiv", l.getObservacao());
             }
-
             //Lê a localização
             List<Localizacao> lista = new ArrayList<>();
             supId = 0;
