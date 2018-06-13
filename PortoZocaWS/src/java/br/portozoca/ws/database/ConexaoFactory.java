@@ -22,7 +22,7 @@ import java.util.Properties;
 public final class ConexaoFactory {
 
     /** Url to the database */
-    private static final String URL = "jdbc:mysql://porto-zoca.cl6eed1myiqo.us-west-2.rds.amazonaws.com:3306/PortoZoca_Dev";
+    private static final String URL = "jdbc:mysql://den1.mysql4.gear.host:3306/portozoca";
     /** Connection properties */
     private static final Properties CONN_PTS;
 
@@ -112,8 +112,9 @@ public final class ConexaoFactory {
      */
     private static void loadProperties() {
         CONN_PTS.clear();
-        CONN_PTS.setProperty("user", "PortoZoca");
-        CONN_PTS.setProperty("password", CryptUtils.base64().decrypt("UG9ydG9ab2NhMTIzNA=="));
+        CONN_PTS.setProperty("user", "portozoca");
+        CONN_PTS.setProperty("password", "Ty3zxkyen_!u");
+//        CONN_PTS.setProperty("password", CryptUtils.base64().decrypt("UG9ydG9ab2NhMTIzNA=="));
     }
 
     /**
