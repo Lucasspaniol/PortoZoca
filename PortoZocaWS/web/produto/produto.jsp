@@ -88,10 +88,25 @@
                 <td>
                     <input type="button" value="A" id="consultar" onclick="botaoAlt(${p})">
                     <input type="button" value="X" id="excluir" onclick="botaoExc(${p.produtoId})">
+                    <input name="submit" type="button" value="Obs" onclick="accObs(${p})">
                 </td>
             </tr>
         </c:forEach>
     </table>
+    <%-- Modal para aceitar observações --%>
+    <c:if test="${aceitaObs}">
+        <input class="modal-state" id="modal-obs" type="checkbox" checked </div>
+        <div class="modal">
+            <label class="modal-bg" for="modal-obs"></label>
+            <div class="modal-body" style="width:70%;height: 50%;">
+                <label class="btn-close" for="modal-obs">X</label>
+                <h4 class="modal-title">Produto: ${prod.referencia}</h4>
+                <h5 class="modal-subtitle">Observação</h5>
+                <textarea rows="4" cols="50" name="Obs" id="Obs" style="width: 100%;height: 50%">${prod.observacao}</textarea>
+                <button for="modal-obs" class="paper-btn" autofocus="autofocus" onclick="grvObs(${prod})">Ok</button>
+            </div>
+        </div>
+    </c:if>
     <%-- Scripts --%>
     <script type="text/javascript">
         // Chama inclusão de produtos
@@ -117,6 +132,16 @@
         function recarregaPagina() {
             window.location = "\\PortoZoca\\produto";
         }
+        function accObs(prd) {
+            var referencia = document.getElementById("Referencia").value;
+            var descricao = document.getElementById("Descricao").value;
+            window.location = "\\PortoZoca\\produto?accObs=Sim" + "&id=" + prd.produtoId + "&referencia=" + referencia + "&descricao=" + descricao;
+        }
+        function grvObs(prd) {
+            var obs = document.getElementById("Obs").value;
+            window.location = "\\PortoZoca\\produto?gravaObs=Sim" + "&id=" + prd.produtoId + "&obs=" + obs;
+        }
+        
     </script>
 
 </body>

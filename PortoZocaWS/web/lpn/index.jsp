@@ -76,7 +76,7 @@
         <c:forEach items="${Lpns}" var="lpn" varStatus="idl">
             <tr style="line-height: 130%; background-color: #AC6; border-bottom: 1px solid lightgray;">
                 <td>${lpn.lpnId}</td>
-                <td>${lpn.Produto}</td>
+                <td>${lpn.produto}</td>
                 <td>${lpn.localizacao}</td>
                 <td>${lpn.quantidade}</td>
                 <td>${lpn.lpnContenedor}</td>
