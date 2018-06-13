@@ -8,15 +8,15 @@ package br.portozoca.ws.entidade;
 /**
  * A Bean that represents a product
  *
- * @author joaovperin
+ * @author Jonas
  */
 public class Lpn {
 
     private int lpnId;
-    private int lpnContenedorId;
-    private int produtoId;
-    private int localizacaoId;
+    private Produto produto;
     private float quantidade;
+    private Lpn lpnContenedor;
+    private Localizacao localizacao;
 
     public int getLpnId() {
         return lpnId;
@@ -26,28 +26,12 @@ public class Lpn {
         this.lpnId = lpnId;
     }
 
-    public int getLpnContenedorId() {
-        return lpnContenedorId;
+    public Produto getProduto() {
+        return produto;
     }
 
-    public void setLpnContenedorId(int lpnContenedorId) {
-        this.lpnContenedorId = lpnContenedorId;
-    }
-
-    public int getProdutoId() {
-        return produtoId;
-    }
-
-    public void setProdutoId(int produtoId) {
-        this.produtoId = produtoId;
-    }
-
-    public int getLocalizacaoId() {
-        return localizacaoId;
-    }
-
-    public void setLocalizacaoId(int localizacaoId) {
-        this.localizacaoId = localizacaoId;
+    public void setProduto(Produto produto) {
+        this.produto = produto;
     }
 
     public float getQuantidade() {
@@ -58,9 +42,25 @@ public class Lpn {
         this.quantidade = quantidade;
     }
 
+    public Lpn getLpnContenedor() {
+        return lpnContenedor;
+    }
+
+    public void setLpnContenedor(Lpn lpnContenedor) {
+        this.lpnContenedor = lpnContenedor;
+    }
+
+    public Localizacao getLocalizacao() {
+        return localizacao;
+    }
+
+    public void setLocalizacao(Localizacao localizacao) {
+        this.localizacao = localizacao;
+    }
+
     @Override
     public String toString() {
-        return "Lpn{" + "lpnId=" + lpnId + ", lpnContenedorId=" + lpnContenedorId + ", produtoId=" + produtoId + ", localizacaoId=" + localizacaoId + ", quantidade=" + quantidade + '}';
+        return "Lpn{" + "lpnId=" + lpnId + ", produto=" + produto + ", quantidade=" + quantidade + ", lpnContenedor=" + lpnContenedor + ", localizacao=" + localizacao + '}';
     }
 
 }
