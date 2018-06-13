@@ -34,7 +34,7 @@
                     <div>Localização</div>
                     <input type="text" value="" name="localizacao" id="localizacao"  style="width: 75%;">
                     <br>
-                    <input name="submit" type="button" value="Fechar caixa" onclick="">
+                    <input name="submit" type="button" value="Entrada de LPN" onclick="">
                 </div>
             </div>
         </center>
@@ -66,29 +66,47 @@
             Produtos
         </caption>
         <tr>
+            <th>LPN</th>
             <th>Produto</th>
             <th>Localização</th>
             <th>Quantidade</th>
-            <th>Nivel da caixa</th>
+            <th>LPN contenedor</th>
             <th>Funções</th>
         </tr>
         <c:forEach items="${Lpns}" var="lpn" varStatus="idl">
             <tr style="line-height: 130%; background-color: #AC6; border-bottom: 1px solid lightgray;">
                 <td>${lpn.lpnId}</td>
-                <td>${lpn.lpnContenedorId}</td>
-                <td>${lpn.produtoId}</td>
-                <td>${lpn.localizacaoId}</td>
+                <td>${lpn.Produto}</td>
+                <td>${lpn.localizacao}</td>
                 <td>${lpn.quantidade}</td>
+                <td>${lpn.lpnContenedor}</td>
                 <%-- Ações --%>
                 <td>
-                    <input type="button" value="A" id="consultar" onclick="botaoAlt(${p})">
-                    <input type="button" value="X" id="excluir" onclick="botaoExc(${p.produtoId})">
+                    <input type="button" title="Eliminar" value="X" id="excluir" onclick="botaoExcluir(${lpn})">
+                    <input type="button" title="Realizar saída do LPN" value="->" id="Saida" onclick="botaoSaida(${lpn})">
+                    <input type="button" title="Observações" value="..." id="obs" onclick="accObs(${lpn})">
+                    <input type="button" title="Alterar" value="A" id="alterar" onclick="botaoAlt(${lpn})">                    
+                    <input type="button" title="Inserir LPN dentro de contenedor" value="In" id="inserirLpn" onclick="botaoInserirLpn(${lpn})">
                 </td>
             </tr>
         </c:forEach>
     </table>
+    <br/>
+    <br/>    
+    <div class="card" style="width: 430px;">
+        <div class="card-body">
+            <form action="">
+            Apenas LPNs não contidos <input type="checkbox" name="naoContidos" value="naoContidos" style="float:right; width: 100px;">
+            </form>
+        </div>
+    </div>    
+    <br/>
+    <br/>
     <%-- Scripts --%>
     <script type="text/javascript">
+        
+        
+        
     </script>
 
 </body>

@@ -22,6 +22,9 @@
         <div style="float: left; margin-left: 10px;">
             <button onclick="window.location.href = '/PortoZoca/localizacao'">Localização</button>
         </div>
+        <div style="float: left; margin-left: 10px;">
+            <button onclick="window.location.href = '/PortoZoca/lpn'">LPN</button>
+        </div>
         <%-- Botão de Logout --%>
         <div style="float: right;">
             <button onclick="window.location.href = '/PortoZoca/Logout'">Logout</button>
