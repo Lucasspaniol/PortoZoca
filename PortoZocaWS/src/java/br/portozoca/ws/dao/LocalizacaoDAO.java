@@ -171,4 +171,67 @@ public class LocalizacaoDAO extends GenericDAO<Localizacao> implements DataAcces
         }
     }
 
+    /**
+     *
+     * @param localizacao
+     * @return
+     * @throws DBException
+     */
+    @Override
+    public Localizacao loadLocalizacao(String localizacao) throws DBException {
+        String[] divisao = localizacao.split("\\.");
+        
+        List<Localizacao> lista = this.select(" AS L "
+                + "INNER JOIN Localizacao LS "
+                + "ON (L.LocalizacaoSuperiorId = LS.LocalizacaoId) "
+                + "WHERE LS.Divisao='"
+                + divisao[divisao.length - 2]
+                + "' AND L.Divisao='"
+                + divisao[divisao.length - 1]
+                + "';");
+        
+        String localizacaoPai = "";
+        for(int x = 0; x < (divisao.length - 1); x++){
+            if(x != 0) {
+                localizacaoPai = localizacaoPai + ".";
+            }
+            localizacaoPai = localizacaoPai + divisao[x];
+        }
+        for(Localizacao l: lista){
+            if(validaSuperiores(localizacaoPai, l.getLocalizacaoid()) == true){
+                return l;
+            }
+        }
+        return null;
+    }
+    
+    public boolean validaSuperiores(String localizacao, int localizacaoAtual) throws DBException {
+        String[] divisao = localizacao.split("\\.");
+        if(divisao.length <= 1){
+            return true;
+        }
+        List<Localizacao> lista = this.select(" AS L "
+                + "INNER JOIN Localizacao LS "
+                + "ON (L.LocalizacaoSuperiorId = LS.LocalizacaoId) "
+                + "WHERE LS.Divisao='"
+                + divisao[divisao.length - 2]
+                + "' AND L.Divisao='"
+                + divisao[divisao.length - 1]
+                + "' AND L.LocalizacaoId ='+"+ localizacaoAtual +"';");
+        
+        String localizacaoPai = "";
+        for(int x = 0; x < (divisao.length - 1); x++){
+            if(x != 0) {
+                localizacaoPai = localizacaoPai + ".";
+            }
+            localizacaoPai = localizacaoPai + divisao[x];
+        }
+        for(Localizacao l: lista){
+            if(validaSuperiores(localizacaoPai, l.getLocalizacaoid()) == true){
+                return true;
+            }
+        }
+        return false;
+    }
+    
 }

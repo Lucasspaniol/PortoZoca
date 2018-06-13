@@ -6,6 +6,7 @@
 package br.portozoca.ws.dao;
 
 import br.portozoca.ws.database.DBException;
+import br.portozoca.ws.entidade.Localizacao;
 import java.util.List;
 
 /**
@@ -70,5 +71,7 @@ public interface DataAccessObject<B> {
      * @throws DBException
      */
     public boolean delete(B bean) throws DBException;
+
+    public Localizacao loadLocalizacao(String parameter) throws DBException ;
 
 }

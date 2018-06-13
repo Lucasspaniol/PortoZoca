@@ -10,7 +10,9 @@ import br.portozoca.ws.dao.DataAccessObject;
 import br.portozoca.ws.database.Conexao;
 import br.portozoca.ws.database.ConexaoFactory;
 import br.portozoca.ws.database.DBException;
+import br.portozoca.ws.entidade.Localizacao;
 import br.portozoca.ws.entidade.Lpn;
+import br.portozoca.ws.entidade.Produto;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
@@ -37,10 +39,22 @@ public class LpnServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try (Conexao conn = ConexaoFactory.transaction()) {
-            DataAccessObject<Lpn> dao = DAOFactory.create(Lpn.class, conn);
+            DataAccessObject<Lpn> daoLpn = DAOFactory.create(Lpn.class, conn);
+            DataAccessObject<Produto> daoProduto = DAOFactory.create(Produto.class, conn);
+            DataAccessObject<Localizacao> daoLocalizacao = DAOFactory.create(Localizacao.class, conn);
+            // Check's if user include product
+            if (req.getParameter("botaoAdd") != null) {
+                Lpn lpn = new Lpn();
+                lpn.setProduto(daoProduto.selectOne(" WHERE Referencia ='" + req.getParameter("referencia") + "'"));
+                lpn.setLocalizacao(daoLpn.loadLocalizacao(req.getParameter("localizacao")));
+                lpn.setQuantidade(1f);
+                daoLpn.insert(lpn);
+                conn.commit();
+                req.setAttribute("gravou_ok", "true");
+            }
             
             // Reads all the products
-            List<Lpn> lista = dao.select();
+            List<Lpn> lista = daoLpn.select();
             req.setAttribute("Lpns", lista);
         } catch (DBException e) {
             // Se der exception, põe nos atributos

@@ -7,6 +7,7 @@ package br.portozoca.ws.dao;
 
 import br.portozoca.ws.database.Conexao;
 import br.portozoca.ws.database.DBException;
+import br.portozoca.ws.entidade.Localizacao;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.sql.ResultSet;
@@ -164,6 +165,11 @@ public class GenericDAO<B> implements DataAccessObject<B> {
 
     @Override
     public B selectOne(String filter) throws DBException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Localizacao loadLocalizacao(String parameter) throws DBException  {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

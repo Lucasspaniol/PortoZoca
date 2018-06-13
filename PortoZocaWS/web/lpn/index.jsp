@@ -34,19 +34,19 @@
                     <div>Localização</div>
                     <input type="text" value="" name="localizacao" id="localizacao"  style="width: 75%;">
                     <br>
-                    <input name="submit" type="button" value="Entrada de LPN" onclick="">
+                    <input name="submit" type="button" value="Entrada de LPN" onclick="botaoAdd()">
                 </div>
             </div>
         </center>
     <%-- Mensagens --%>
     <c:if test="${not empty gravou_ok}">
-        <t:modal message="Gravou produto com sucesso!"
+        <t:modal message="Gravou LPN com sucesso!"
                  substitle="DEU BOM"
                  title="Informação!">
         </t:modal>
     </c:if>
     <c:if test="${not empty deletou_ok}">
-        <t:modal message="Excluiu produto com sucesso!"
+        <t:modal message="Excluiu LPN com sucesso!"
                  substitle="DEU BOM"
                  title="Informação!">
         </t:modal>
@@ -76,8 +76,8 @@
         <c:forEach items="${Lpns}" var="lpn" varStatus="idl">
             <tr style="line-height: 130%; background-color: #AC6; border-bottom: 1px solid lightgray;">
                 <td>${lpn.lpnId}</td>
-                <td>${lpn.Produto}</td>
-                <td>${lpn.localizacao}</td>
+                <td>${lpn.produto.referencia}</td>
+                <td>${lpn.localizacao.getEstrutura()}</td>
                 <td>${lpn.quantidade}</td>
                 <td>${lpn.lpnContenedor}</td>
                 <%-- Ações --%>
@@ -104,6 +104,12 @@
     <br/>
     <%-- Scripts --%>
     <script type="text/javascript">
+        // Chama inclusão de produtos
+        function botaoAdd() {
+            var referencia = document.getElementById("referencia").value;
+            var localizacao = document.getElementById("localizacao").value;
+            window.location = "\\PortoZoca\\lpn?botaoAdd=Sim" + "&referencia=" + referencia + "&localizacao=" + localizacao;
+        }
         
         
         
